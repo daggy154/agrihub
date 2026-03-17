@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard - AgriHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css" >
+    <link rel="stylesheet" href="index.css">
+    
+    
+</head>
+<body class="dashboard-bg"><!-- Reusing the centered body style -->
+
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" style="fill:white; width:24px; height:24px; margin-right:8px;">
+                    <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                </svg>
+                AgriHub
+            </div>
+            <a href="#" class="menu-item active">Add Product</a>
+            <a href="farmer_products.html" class="menu-item">My Products</a>
+            <a href="#" class="menu-item">Orders Received</a>
+            <a href="#" class="menu-item">Settings</a>
+            <a href="index.html" class="menu-item" style="margin-top: auto; border:none; color: #ffadad;">Logout</a>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="dashboard-content">
+            <div class="dash-header">
+                <h2>Post New Product</h2>
+                <div class="user-profile" style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-weight:700; color:var(--primary-green);" id="farmerName">Farmer</span>
+                    <div style="width:40px; height:40px; background:var(--card-tan); border-radius:50%;"></div>
+                </div>
+            </div>
+
+            <!-- Requirement: "Farmers to post products and their validated price" -->
+            <form class="add-product-form" id="productForm" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" id="productName" placeholder="e.g. Fresh Organic Tomatoes">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="category">
+                            <option>Vegetables</option>
+                            <option>Fruits</option>
+                            <option>Grains</option>
+                            <option>Dairy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Price per Kg ($)</label>
+                        <input type="number" id="price" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity Available (Kg)</label>
+                        <input type="number" id="quantity" placeholder="100">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="description" rows="4" style="width:100%; padding:15px; border:1px solid #e0e0e0; border-radius:10px; font-family:'DM Sans';" placeholder="Describe your product..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <div class="file-upload">
+                        <span style="font-size:2rem;">📸</span><br>
+                        Click to upload photo
+                        <input type="file" id="productImage" name="image" accept="image/*">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" style="width: auto; padding-left: 40px; padding-right: 40px;">Publish Product</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Load farmer info from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = JSON.parse(localStorage.getItem('currentUser'));
+            if (userData && userData.fullname) {
+                document.getElementById('farmerName').textContent = userData.fullname;
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

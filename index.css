@@ -1,0 +1,416 @@
+/* --- RESET & VARIABLES --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color: #FDF9F3;
+    --primary-green: #3E5B46; /* Deep green for hero */
+    --accent-green: #6AA863; /* Button green */
+    --card-red: #9B453E;
+    --card-tan: #C0926D;
+    --text-white: #ffffff;
+    --middle-card-bg: #57705E;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--bg-color);
+    background-image: 
+        radial-gradient(circle at 10% 20%, #A0524D 0px, #A0524D 15px, transparent 16px),
+        radial-gradient(circle at 90% 10%, #C0926D 0px, #C0926D 20px, transparent 21px),
+        radial-gradient(circle at 5% 80%, #3E5B46 0px, #3E5B46 10px, transparent 11px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding: 40px;
+}
+
+/* --- DECORATIVE LEAVES --- */
+.leaf-decoration {
+    position: absolute;
+    z-index: -1;
+    opacity: 0.8;
+}
+.leaf-1 { top: -20px; left: -20px; width: 150px; transform: rotate(45deg); }
+.leaf-2 { bottom: -50px; right: -20px; width: 200px; transform: rotate(-45deg); }
+
+/* --- MAIN CONTAINER (Homepage) --- */
+.main-container {
+    width: 100%;
+    max-width: 1200px;
+    background-color: var(--primary-green);
+    border-radius: 30px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    background: linear-gradient(rgba(45, 66, 50, 0.7), rgba(45, 66, 50, 0.6)), 
+                url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1632&q=80');
+    background-size: cover;
+    background-position: center;
+    padding: 30px 50px 180px 50px;
+    overflow: visible;
+}
+
+/* --- NAVIGATION --- */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-white);
+    margin-bottom: 80px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: white; /* Default logo color for dark backgrounds */
+}
+
+.logo svg {
+    fill: currentColor; /* Matches the text color automatically */
+    width: 24px;
+    height: 24px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-links a {
+    color: #ddd;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: white;
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-login {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.btn-register {
+    background-color: var(--accent-green);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.btn-register:hover {
+    background-color: #558a4f;
+}
+
+/* --- HERO CONTENT --- */
+.hero-content {
+    text-align: center;
+    color: white;
+    margin-bottom: 60px;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    line-height: 1.2;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+/* --- CARDS SECTION --- */
+.cards-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    position: absolute;
+    bottom: -60px;
+    left: 0;
+    right: 0;
+    padding: 0 20px;
+    flex-wrap: wrap;
+    pointer-events: none;
+}
+
+.card {
+    pointer-events: auto;
+    width: 300px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+    background: white;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.img-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.img-container {
+    height: 140px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.img-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-details {
+    padding: 15px 20px;
+    color: white;
+}
+
+.card-details h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.card-details p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.card-red .card-details { background-color: var(--card-red); }
+.card-tan .card-details { background-color: var(--card-tan); }
+
+/* Middle Green Card */
+.middle-card {
+    background-color: var(--middle-card-bg);
+    color: white;
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    min-height: 200px;
+}
+
+.middle-card h2 {
+    font-size: 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-bottom: 30px;
+}
+
+.middle-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.tomato-slice {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    width: 70px;
+    height: 70px;
+    background: url('https://png.pngtree.com/png-clipart/20230427/original/pngtree-tomato-slice-png-image_9113697.png'); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+}
+
+/* --- AUTH PAGES (Login & Register) --- */
+
+.auth-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.auth-container {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 450px;
+    padding: 50px 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(62, 91, 70, 0.15);
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+.auth-header {
+    margin-bottom: 30px;
+}
+
+/* Make logo Green on white Auth card, override default white */
+.auth-header .logo {
+    justify-content: center;
+    color: var(--primary-green) !important; 
+    margin-bottom: 20px;
+}
+
+.auth-header h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--primary-green);
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.auth-header p {
+    color: #888;
+    font-size: 0.95rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--primary-green);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    background-color: #ffffff;
+    transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent-green);
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 0 4px rgba(106, 168, 99, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+}
+
+.form-actions a {
+    color: var(--card-red);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #2c4232;
+}
+
+.auth-footer {
+    margin-top: 25px;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.auth-footer a {
+    color: var(--accent-green);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+/* (Keep this at the very bottom) */
+@media (max-width: 900px) {
+    h1 { font-size: 3rem; }
+    .cards-wrapper { position: relative; bottom: 0; margin-top: 50px; }
+    .main-container { padding-bottom: 50px; }
+}
+
+@media (max-width: 768px) {
+    nav { flex-direction: column; gap: 20px; }
+    .nav-links { gap: 20px; }
+    h1 { font-size: 2.5rem; }
+    .card { width: 100%; max-width: 320px; }
+    .auth-container { padding: 30px 20px; }
+}
+/* --- BLURRY FARM BACKGROUND --- */
+.dashboard-bg {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    /* Use a fixed position so the background doesn't move */
+    background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1632&q=80') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* This creates the Blur & Dark Overlay effect */
+.dashboard-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4); /* Darkens image by 40% so white text pops */
+    backdrop-filter: blur(8px);      /* BLURS the image by 8px */
+    z-index: 0;
+}
+
+/* Ensure the dashboard card sits ON TOP of the blur */
+.dashboard-container {
+    position: relative;
+    z-index: 1; /* Puts the white box above the blur */
+}
+/* Make the Main Container slightly transparent to show the farm background */
