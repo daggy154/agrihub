@@ -1,0 +1,141 @@
+/* --- ADMIN PANEL SPECIFIC CSS --- */
+
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    min-height: 80vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: var(--primary-green); /* Uses variable from index.css */
+    padding: 30px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item {
+    display: block;
+    padding: 15px 0;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: 0.3s;
+}
+
+.menu-item:hover, .menu-item.active {
+    color: white;
+    padding-left: 10px;
+}
+
+/* Content Area */
+.dashboard-content {
+    flex: 1;
+    padding: 40px;
+    background-color: #FAFAFA;
+    overflow-y: auto;
+}
+
+.dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.dash-header h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--primary-green);
+    font-size: 2rem;
+}
+
+/* Table Styles */
+.table-container {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    overflow: hidden;
+    overflow-x: auto; /* Handles small screens */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'DM Sans', sans-serif;
+    min-width: 600px;
+}
+
+thead {
+    background-color: var(--primary-green);
+    color: white;
+}
+
+th, td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+/* Product Image & Name in Table */
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Price Highlights */
+.markup-price {
+    color: var(--accent-green);
+    font-weight: 700;
+}
+
+/* Quantity Status */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background-color: #e6f4ea; 
+    color: #1e7e34;
+}
+
+/* Buttons */
+.action-btn {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-right: 5px;
+    transition: 0.2s;
+}
+
+.btn-edit {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-delete {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+.btn-delete:hover { background-color: #fecaca; }
