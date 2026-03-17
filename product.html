@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace - AgriHub</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="index.css">
+    <!-- Admin/Dashboard CSS is not needed here, just index.css usually covers shared styles, 
+         but if you have specific product styles in style.css, link that. -->
+    <link rel="stylesheet" href="index.css"> 
+    <link rel="stylesheet" href="product.css">
+</head>
+<body class="dashboard-bg"> <!-- Using the background we just discussed -->
+
+    <div class="main-container" style="background-image: none; background-color: rgba(253, 249, 243, 0.95); padding-bottom: 50px; overflow: visible;">
+        
+        <!-- Header -->
+        <header>
+            <nav style="color: var(--primary-green);">
+                <div class="logo" style="color: var(--primary-green);">
+                    <svg viewBox="0 0 24 24" style="fill: var(--primary-green); width: 24px; height: 24px;">
+                        <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                    </svg>
+                    AgriHub
+                </div>
+                <div class="nav-links">
+                    <a href="user-portal.html" style="color: var(--primary-green); font-weight: 700;">&larr; Back to Portal</a>
+                    <a href="product.html" class="active" style="color: var(--primary-green); font-weight:700;">Marketplace</a>
+                </div>
+                <div class="auth-buttons">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <!-- Cart Icon -->
+                        <span style="position:relative; cursor:pointer;">
+                            <svg style="width:24px; fill:var(--primary-green);" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                            <span id="cart-count" style="position:absolute; top:-5px; right:-5px; background:var(--card-red); color:white; font-size:10px; padding:2px 5px; border-radius:50%; display:none;">0</span>
+                        </span>
+                        <a href="index.html" class="btn-register" style="background:#797a79; color:#333;">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="market-header">
+            <h1>Fresh From The Farm</h1>
+            <p style="color: #666;">Browse high-quality products directly from verified farmers.</p>
+        </div>
+
+        <!-- SEARCH BAR -->
+        <div class="search-container">
+            <select class="filter-select">
+                <option>All Categories</option>
+                <option>Vegetables</option>
+                <option>Fruits</option>
+                <option>Grains</option>
+                <option >live stock
+                </option>
+            </select>
+            <input type="text" class="search-input" placeholder="Search for tomatoes, maize, carrots...">
+            <button class="search-btn">Search</button>
+        </div>
+
+        <!-- PRODUCT GRID (NOW EMPTY) -->
+        <!-- The ID 'market-grid' is crucial. script.js looks for this. -->
+        <div class="product-grid" id="market-grid">
+            <!-- JavaScript will insert cards here automatically -->
+             <p style="text-align: center; width: 100%; color: #888;">Loading fresh produce...</p>
+        </div>
+
+    </div>
+
+    <!-- Link to the script that loads the data -->
+    <script src="script.js"></script>
+</body>
+</html>

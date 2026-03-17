@@ -1,0 +1,189 @@
+/* =========================================
+   ADD THIS TO THE BOTTOM OF STYLE.CSS
+   ========================================= */
+
+/* --- MARKETPLACE (products.html) --- */
+.market-header {
+    text-align: center;
+    color: var(--primary-green);
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+.market-header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+/* Search Bar Styles */
+.search-container {
+    background: white;
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+    padding: 10px;
+    border-radius: 50px;
+    display: flex;
+    gap: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 40px;
+    font-size: 1rem;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.filter-select {
+    border: none;
+    background: #f4f4f4;
+    padding: 0 20px;
+    border-radius: 40px;
+    color: var(--primary-green);
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.search-btn {
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 40px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: 'DM Sans', sans-serif;
+}
+.search-btn:hover { background-color: #2c4232; }
+
+/* Product Grid Layout */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    padding-bottom: 50px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Marketplace Card Styles */
+.market-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.market-card:hover { transform: translateY(-5px); }
+
+.market-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.market-card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.tag {
+    background-color: #e6f4ea;
+    color: var(--primary-green);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    align-self: flex-start;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* Pushes price to bottom */
+    padding-top: 15px;
+}
+
+.price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--card-red);
+}
+
+.btn-buy {
+    background-color: var(--primary-green);
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: 0.3s;
+}
+.btn-buy:hover { background-color: var(--accent-green); }
+
+/* --- CHECKOUT (checkout.html) --- */
+.checkout-wrapper {
+    display: flex;
+    gap: 30px;
+    max-width: 1000px;
+    margin: 50px auto;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.order-summary, .payment-details {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.order-summary { flex: 1; }
+.payment-details { flex: 1; border: 2px solid var(--primary-green); }
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-top: 20px;
+}
+
+.mpesa-logo {
+    height: 50px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* Mobile Responsiveness for new pages */
+@media (max-width: 768px) {
+    .checkout-wrapper { flex-direction: column; }
+    .search-container { flex-direction: column; border-radius: 20px; }
+    .search-input, .filter-select, .search-btn { width: 100%; border-radius: 10px; margin-bottom: 10px; }
+}
