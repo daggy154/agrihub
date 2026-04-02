@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Support & Contacts - AgriHub Farmers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #f4f7f2;
+            color: #1a2a1f;
+        }
+
+        /* Dashboard layout */
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            min-height: 85vh;
+            margin: 2rem auto;
+        }
+
+        /* Sidebar - Farmer style */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(145deg, #1a3f2a 0%, #0e2a1c 100%);
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .sidebar .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            font-weight: 600;
+            margin-bottom: 48px;
+            border-left: 3px solid #d4af37;
+            padding-left: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+
+        .menu-item {
+            display: block;
+            padding: 12px 16px;
+            margin: 6px 0;
+            border-radius: 16px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .menu-item:hover {
+            background: rgba(255,255,255,0.12);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .menu-item.active {
+            background: #d4af37;
+            color: #1e3a2b;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Main content area */
+        .dashboard-content {
+            flex: 1;
+            padding: 32px 40px;
+            background-color: #FAFAFA;
+            overflow-y: auto;
+        }
+
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .dash-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: #1e4a2f;
+            font-size: 2rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #eef2ea;
+            padding: 6px 16px 6px 12px;
+            border-radius: 40px;
+        }
+
+        /* Hero Section */
+        .contacts-hero {
+            background: linear-gradient(135deg, #2c5e2e 0%, #1a472a 100%);
+            border-radius: 28px;
+            padding: 28px 32px;
+            margin-bottom: 32px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .hero-text p {
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .emergency-badge {
+            background: #ff6b35;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Contact Grids */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a3f2a;
+            margin: 32px 0 20px 0;
+            border-left: 5px solid #d4af37;
+            padding-left: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            border: 1px solid #e2e8e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+            border-color: #bdd9aa;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #f8fbf5 0%, #eef3e9 100%);
+            padding: 20px 24px;
+            border-bottom: 1px solid #e0ecd6;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .avatar-icon {
+            width: 56px;
+            height: 56px;
+            background: #2e6b3e;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .avatar-icon.admin {
+            background: #2c5f8a;
+        }
+
+        .avatar-icon.expert {
+            background: #b8860b;
+        }
+
+        .card-header h3 {
+            font-size: 1.25rem;
+            color: #1a472a;
+            margin-bottom: 4px;
+        }
+
+        .role-tag {
+            font-size: 0.7rem;
+            background: #e2e8e0;
+            padding: 2px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            color: #2d4a2a;
+        }
+
+        .card-body {
+            padding: 20px 24px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            color: #4a5b44;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-detail strong {
+            color: #1e3a2b;
+            min-width: 70px;
+        }
+
+        .contact-detail a {
+            color: #2c6e2c;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-detail a:hover {
+            text-decoration: underline;
+            color: #d4af37;
+        }
+
+        .btn-message {
+            width: 100%;
+            margin-top: 16px;
+            padding: 10px;
+            background: #1e3a2b;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-message:hover {
+            background: #d4af37;
+            color: #1a3f2a;
+        }
+
+        /* Quick Support Form */
+        .support-form-card {
+            background: white;
+            border-radius: 28px;
+            padding: 28px 32px;
+            margin: 24px 0 32px;
+            border: 1px solid #e3efdb;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.02);
+        }
+
+        .support-form-card h3 {
+            font-size: 1.4rem;
+            color: #1a472a;
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c5e2e;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            border: 1px solid #cbdcc0;
+            font-family: inherit;
+            font-size: 0.9rem;
+            background: #fefef7;
+            transition: 0.2s;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        .submit-btn {
+            background: #1e3a2b;
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-btn:hover {
+            background: #d4af37;
+            color: #1a3f2a;
+        }
+
+        /* Recent Tickets / Messages */
+        .tickets-section {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 20px 24px;
+            margin-top: 20px;
+            border: 1px solid #e0ecd6;
+        }
+
+        .ticket-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0e5;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .ticket-item:last-child {
+            border-bottom: none;
+        }
+
+        .ticket-status {
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .status-pending {
+            background: #fff3e0;
+            color: #c47d2e;
+        }
+
+        .status-resolved {
+            background: #e0f2e0;
+            color: #2e7d32;
+        }
+
+        .status-answered {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e2a1e;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: #7d8f74;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+                margin: 0;
+                border-radius: 0;
+            }
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+            .dashboard-content {
+                padding: 24px 20px;
+            }
+            .contacts-hero {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body style="background: #eef3ea; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+    <div class="dashboard-container">
+        <!-- SIDEBAR - Farmer Dashboard Navigation -->
+        <div class="sidebar">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" style="fill:white; width:24px; height:24px; margin-right:8px;">
+                    <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                </svg>
+                AgriHub
+            </div>
+            <a href="farmer_dashboard.html" class="menu-item">Dashboard</a>
+            <a href="farmer_products.html" class="menu-item">My Products</a>
+            <a href="farmer_orders.html" class="menu-item">Orders</a>
+            <a href="farmer_contacts.html" class="menu-item active">Support & Contacts</a>
+            <a href="farmer_settings.html" class="menu-item">Settings</a>
+            <a href="index.html" class="menu-item" style="margin-top: auto; color: #ffadad;">Logout</a>
+        </div>
+
+        <!-- MAIN CONTENT - Contacts & Support -->
+        <div class="dashboard-content">
+            <div class="dash-header">
+                <h2>🤝 Farmer Support Hub</h2>
+                <div class="user-profile">
+                    <span style="font-weight:600; color:#1e4a2f;" id="farmerNameDisplay">Farmer</span>
+                    <div style="width:36px; height:36px; background:#c0cfb2; border-radius:50%; display: flex; align-items: center; justify-content: center;">👨‍🌾</div>
+                </div>
+            </div>
+
+            <!-- Hero / Emergency Section -->
+            <div class="contacts-hero">
+                <div class="hero-text">
+                    <h1>Need assistance? We're here for you</h1>
+                    <p>Connect with AgriHub admins for platform support, or reach out to certified agricultural experts for farming advice, pest control, and market guidance.</p>
+                </div>
+                <div class="emergency-badge">
+                    🚨 Emergency hotline: +254 704 282 757
+                </div>
+            </div>
+
+            <!-- Admin & Expert Contacts Grid -->
+            <div class="section-title">
+                <span>👩‍💼</span> Platform Admins
+            </div>
+            <div class="contact-grid" id="adminContactsGrid">
+                <div class="loading-spinner">Loading admins...</div>
+            </div>
+
+            <div class="section-title">
+                <span>🌿</span> Certified Agri Experts
+            </div>
+            <div class="contact-grid" id="expertContactsGrid">
+                <div class="loading-spinner">Loading experts...</div>
+            </div>
+
+            <!-- Quick Support Form (submit ticket / message) -->
+            <div class="support-form-card">
+                <h3>📝 Send a support request</h3>
+                <p style="margin-bottom: 20px; color: #5a6e52;">Get help from our team — choose the recipient and describe your issue or farming question.</p>
+                <form id="supportRequestForm">
+                    <div class="form-group">
+                        <label>Contact type *</label>
+                        <select id="recipientType" required>
+                            <option value="admin">📋 Platform Admin (account, orders, technical)</option>
+                            <option value="expert">🌾 Agricultural Expert (farming, pest, crops, livestock)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select specific person *</label>
+                        <select id="recipientId" required>
+                            <option value="">-- First choose contact type --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input type="text" id="subject" placeholder="e.g., Issue with order #123 or Advice on tomato blight" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="messageContent" placeholder="Describe your question or issue in detail..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">✉️ Send Message</button>
+                </form>
+            </div>
+
+            <!-- Recent Support Tickets / Conversation History -->
+            <div class="section-title">
+                <span>📋</span> My recent inquiries
+            </div>
+            <div class="tickets-section" id="ticketsContainer">
+                <div class="ticket-item" style="justify-content: center; color: #7d8f74;">
+                    Loading your support history...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:3000';
+        let currentFarmer = null;
+        let supportTickets = [];
+        
+        // Store contacts loaded from database
+        let dbAdmins = [];
+        let dbExperts = [];
+
+        // Helper: show toast notification
+        function showNotification(message, type = "info") {
+            const existingToast = document.querySelector('.toast-notification');
+            if(existingToast) existingToast.remove();
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            if(type === 'success') toast.style.background = '#2e7d32';
+            else if(type === 'error') toast.style.background = '#c62828';
+            else toast.style.background = '#1976d2';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        // Load contacts from database (users with role 'admin' or 'expert')
+        async function loadContactsFromDatabase() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/users`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch users');
+                }
+                const users = await response.json();
+                
+                // Filter users by role
+                dbAdmins = users.filter(user => user.role === 'admin');
+                dbExperts = users.filter(user => user.role === 'expert');
+                
+                // Also try to load expert details if there's a separate experts table
+                // For now, we'll use the users table with role='expert'
+                // If you have additional fields like expertise, phone, etc., you'll need to extend the API
+                
+                // Add default contact info for admins and experts from database
+                // Since the users table might not have phone/expertise fields, we'll add defaults
+                dbAdmins = dbAdmins.map(admin => ({
+                    ...admin,
+                    phone: admin.phone || '+254 700 000 000',
+                    expertise: 'Platform Support & Account Management'
+                }));
+                
+                dbExperts = dbExperts.map(expert => ({
+                    ...expert,
+                    phone: expert.phone || '+254 700 000 000',
+                    expertise: expert.expertise || 'Agricultural Advisory & Farming Support'
+                }));
+                
+                // If no experts found in users table, add some default ones as fallback
+                if (dbExperts.length === 0) {
+                    console.log('No experts found in database, using fallback data');
+                    dbExperts = [
+                        { id: 9991, fullname: "Dr. Peter Kimani", email: "p.kimani@agrihub.co.ke", role: "expert", phone: "+254 701 234 567", expertise: "Crop diseases, soil fertility, maize & vegetables" },
+                        { id: 9992, fullname: "Mary Atieno", email: "m.atieno@agrihub.co.ke", role: "expert", phone: "+254 723 456 789", expertise: "Dairy farming, poultry, animal nutrition" }
+                    ];
+                }
+                
+                if (dbAdmins.length === 0) {
+                    console.log('No admins found in database, using fallback data');
+                    dbAdmins = [
+                        { id: 9991, fullname: "Jane Muthoni", email: "jane@agrihub.co.ke", role: "admin", phone: "+254 712 345 678", expertise: "Account, Payments, Disputes" },
+                        { id: 9992, fullname: "David Omondi", email: "david@agrihub.co.ke", role: "admin", phone: "+254 722 987 654", expertise: "Platform bugs, Listings, Orders" }
+                    ];
+                }
+                
+                renderContacts();
+                return { admins: dbAdmins, experts: dbExperts };
+            } catch (error) {
+                console.error('Error loading contacts:', error);
+                showNotification('Error loading contacts. Using default contacts.', 'error');
+                
+                // Fallback data
+                dbAdmins = [
+                    { id: 1, fullname: "Jane Muthoni", email: "jane@agrihub.co.ke", role: "admin", phone: "+254 712 345 678", expertise: "Account, Payments, Disputes" },
+                    { id: 2, fullname: "David Omondi", email: "david@agrihub.co.ke", role: "admin", phone: "+254 722 987 654", expertise: "Platform bugs, Listings, Orders" },
+                    { id: 3, fullname: "Grace Wanjiku", email: "grace@agrihub.co.ke", role: "admin", phone: "+254 745 112 233", expertise: "Farmer verification, Reviews" }
+                ];
+                dbExperts = [
+                    { id: 101, fullname: "Dr. Peter Kimani", email: "p.kimani@agrihub.co.ke", role: "expert", phone: "+254 701 234 567", expertise: "Crop diseases, soil fertility, maize & vegetables" },
+                    { id: 102, fullname: "Mary Atieno", email: "m.atieno@agrihub.co.ke", role: "expert", phone: "+254 723 456 789", expertise: "Dairy farming, poultry, animal nutrition" },
+                    { id: 103, fullname: "James Mwangi", email: "j.mwangi@agrihub.co.ke", role: "expert", phone: "+254 788 901 234", expertise: "Tomatoes, peppers, irrigation & greenhouse" },
+                    { id: 104, fullname: "Esther Naliaka", email: "e.naliaka@agrihub.co.ke", role: "expert", phone: "+254 710 567 890", expertise: "Market prices, cooperatives, farm loans" }
+                ];
+                renderContacts();
+                return { admins: dbAdmins, experts: dbExperts };
+            }
+        }
+
+        // Render admin & expert contact cards from database data
+        function renderContacts() {
+            const adminGrid = document.getElementById('adminContactsGrid');
+            const expertGrid = document.getElementById('expertContactsGrid');
+            if(!adminGrid || !expertGrid) return;
+
+            if (dbAdmins.length === 0) {
+                adminGrid.innerHTML = '<div class="loading-spinner">No admins available</div>';
+            } else {
+                adminGrid.innerHTML = dbAdmins.map(admin => `
+                    <div class="contact-card">
+                        <div class="card-header">
+                            <div class="avatar-icon admin">👩‍💼</div>
+                            <div>
+                                <h3>${escapeHtml(admin.fullname)}</h3>
+                                <span class="role-tag">${escapeHtml(admin.role === 'admin' ? 'Platform Admin' : admin.role)}</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="contact-detail"><strong>📧 Email:</strong> <a href="mailto:${admin.email}">${admin.email}</a></div>
+                            <div class="contact-detail"><strong>📞 Phone:</strong> <a href="tel:${admin.phone}">${admin.phone}</a></div>
+                            <div class="contact-detail"><strong>⚡ Expertise:</strong> ${escapeHtml(admin.expertise || 'Platform Support')}</div>
+                            <button class="btn-message" data-id="${admin.id}" data-type="admin" data-name="${admin.fullname}">💬 Send Message</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            if (dbExperts.length === 0) {
+                expertGrid.innerHTML = '<div class="loading-spinner">No experts available</div>';
+            } else {
+                expertGrid.innerHTML = dbExperts.map(expert => `
+                    <div class="contact-card">
+                        <div class="card-header">
+                            <div class="avatar-icon expert">🌾</div>
+                            <div>
+                                <h3>${escapeHtml(expert.fullname)}</h3>
+                                <span class="role-tag">${escapeHtml(expert.role === 'expert' ? 'Agricultural Expert' : expert.role)}</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="contact-detail"><strong>📧 Email:</strong> <a href="mailto:${expert.email}">${expert.email}</a></div>
+                            <div class="contact-detail"><strong>📞 Phone:</strong> <a href="tel:${expert.phone}">${expert.phone}</a></div>
+                            <div class="contact-detail"><strong>🌱 Specialization:</strong> ${escapeHtml(expert.expertise || 'Agricultural Advisory')}</div>
+                            <button class="btn-message" data-id="${expert.id}" data-type="expert" data-name="${expert.fullname}">💬 Send Message</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Attach event listeners to message buttons
+            document.querySelectorAll('.btn-message').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const contactId = btn.getAttribute('data-id');
+                    const contactType = btn.getAttribute('data-type');
+                    const contactName = btn.getAttribute('data-name');
+                    prefillSupportForm(contactType, contactId, contactName);
+                });
+            });
+        }
+
+        // Prefill the support form when clicking "Send Message" on a contact card
+        function prefillSupportForm(type, id, name) {
+            const recipientTypeSelect = document.getElementById('recipientType');
+            const recipientIdSelect = document.getElementById('recipientId');
+            if(recipientTypeSelect && recipientIdSelect) {
+                recipientTypeSelect.value = type;
+                updateRecipientDropdown(type);
+                setTimeout(() => {
+                    for(let i = 0; i < recipientIdSelect.options.length; i++) {
+                        if(recipientIdSelect.options[i].value === `${type}_${id}`) {
+                            recipientIdSelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }, 50);
+            }
+            showNotification(`Composing message to ${name}`, "info");
+            document.getElementById('subject')?.focus();
+        }
+
+        // Update recipient dropdown based on type (admin/expert)
+        function updateRecipientDropdown(type) {
+            const recipientSelect = document.getElementById('recipientId');
+            if(!recipientSelect) return;
+            recipientSelect.innerHTML = '<option value="">-- Select recipient --</option>';
+            if(type === 'admin') {
+                dbAdmins.forEach(admin => {
+                    recipientSelect.innerHTML += `<option value="admin_${admin.id}">${admin.fullname} (Admin - ${admin.expertise || 'Platform Support'})</option>`;
+                });
+            } else if(type === 'expert') {
+                dbExperts.forEach(exp => {
+                    const expertiseShort = exp.expertise ? exp.expertise.substring(0, 40) : 'Agricultural Expert';
+                    recipientSelect.innerHTML += `<option value="expert_${exp.id}">${exp.fullname} (Expert - ${expertiseShort})</option>`;
+                });
+            }
+        }
+
+        // Load support tickets from localStorage (or initialize)
+        function loadSupportTickets() {
+            const stored = localStorage.getItem('agrihub_farmer_tickets');
+            if(stored) {
+                supportTickets = JSON.parse(stored);
+            } else {
+                // sample demo tickets
+                supportTickets = [
+                    { id: "t1", farmerId: "farmer_demo", date: "2025-03-25", subject: "Cannot upload product images", message: "I keep getting error when adding photos", recipientType: "admin", recipientName: "David Omondi", status: "resolved", reply: "Issue fixed, clear cache and retry." },
+                    { id: "t2", farmerId: "farmer_demo", date: "2025-03-20", subject: "Tomato bacterial wilt advice", message: "My tomatoes are wilting despite watering", recipientType: "expert", recipientName: "Dr. Peter Kimani", status: "answered", reply: "Check for soil drainage and apply copper spray. Crop rotation recommended." }
+                ];
+                localStorage.setItem('agrihub_farmer_tickets', JSON.stringify(supportTickets));
+            }
+            renderTickets();
+        }
+
+        function renderTickets() {
+            const container = document.getElementById('ticketsContainer');
+            if(!container) return;
+            const currentFarmerId = currentFarmer ? currentFarmer.id : "farmer_demo";
+            const myTickets = supportTickets.filter(t => t.farmerId === currentFarmerId);
+            if(myTickets.length === 0) {
+                container.innerHTML = `<div class="ticket-item" style="justify-content:center;">📭 No support requests yet. Use the form above to reach out.</div>`;
+                return;
+            }
+            container.innerHTML = myTickets.map(ticket => `
+                <div class="ticket-item">
+                    <div style="flex:2">
+                        <div style="font-weight:700;">${escapeHtml(ticket.subject)}</div>
+                        <div style="font-size:0.75rem; color:#6f8268;">To: ${escapeHtml(ticket.recipientName)} • ${ticket.date}</div>
+                        <div style="font-size:0.85rem; margin-top:6px; color:#4b5e42;">${escapeHtml(ticket.message.substring(0, 80))}${ticket.message.length > 80 ? '...' : ''}</div>
+                        ${ticket.reply ? `<div style="background:#f6faf3; margin-top:10px; padding:8px 12px; border-radius:16px; font-size:0.8rem;"><span style="font-weight:600;">💬 Reply:</span> ${escapeHtml(ticket.reply)}</div>` : ''}
+                    </div>
+                    <div>
+                        <span class="ticket-status ${ticket.status === 'resolved' ? 'status-resolved' : (ticket.status === 'answered' ? 'status-answered' : 'status-pending')}">
+                            ${ticket.status === 'resolved' ? '✓ Resolved' : (ticket.status === 'answered' ? 'Answered' : '⏳ Pending')}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Save new support ticket
+        function addSupportTicket(recipientTypeRaw, recipientIdValue, subject, message) {
+            let recipientName = "";
+            if(recipientTypeRaw === 'admin') {
+                const adminId = parseInt(recipientIdValue.replace('admin_', ''));
+                const admin = dbAdmins.find(a => a.id === adminId);
+                recipientName = admin ? admin.fullname : "Admin";
+            } else {
+                const expertId = parseInt(recipientIdValue.replace('expert_', ''));
+                const expert = dbExperts.find(e => e.id === expertId);
+                recipientName = expert ? expert.fullname : "Expert";
+            }
+            const newTicket = {
+                id: "ticket_" + Date.now(),
+                farmerId: currentFarmer ? currentFarmer.id : "farmer_demo",
+                date: new Date().toISOString().slice(0,10),
+                subject: subject.trim(),
+                message: message.trim(),
+                recipientType: recipientTypeRaw,
+                recipientName: recipientName,
+                status: "pending",
+                reply: null
+            };
+            supportTickets.unshift(newTicket);
+            localStorage.setItem('agrihub_farmer_tickets', JSON.stringify(supportTickets));
+            renderTickets();
+            return newTicket;
+        }
+
+        // Load current farmer from localStorage (dashboard consistency)
+        function loadFarmerInfo() {
+            const storedUser = localStorage.getItem('currentUser');
+            if(storedUser) {
+                try {
+                    currentFarmer = JSON.parse(storedUser);
+                    document.getElementById('farmerNameDisplay').textContent = currentFarmer.fullname || "Farmer";
+                } catch(e) { console.warn(e); }
+            } else {
+                // demo fallback
+                currentFarmer = { id: "farmer_demo", fullname: "Demo Farmer", role: "farmer" };
+                document.getElementById('farmerNameDisplay').textContent = "Demo Farmer";
+            }
+        }
+
+        // Event listeners and page initialization
+        document.addEventListener('DOMContentLoaded', async () => {
+            loadFarmerInfo();
+            await loadContactsFromDatabase();  // Load contacts from database
+            loadSupportTickets();
+
+            // Recipient type change handler
+            const recipientTypeSelect = document.getElementById('recipientType');
+            const recipientIdSelect = document.getElementById('recipientId');
+            if(recipientTypeSelect) {
+                recipientTypeSelect.addEventListener('change', (e) => {
+                    updateRecipientDropdown(e.target.value);
+                });
+                // initialize default dropdown
+                updateRecipientDropdown(recipientTypeSelect.value);
+            }
+
+            // Form submission
+            const supportForm = document.getElementById('supportRequestForm');
+            if(supportForm) {
+                supportForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const recipientType = document.getElementById('recipientType').value;
+                    const recipientId = document.getElementById('recipientId').value;
+                    const subject = document.getElementById('subject').value.trim();
+                    const message = document.getElementById('messageContent').value.trim();
+                    if(!recipientType || !recipientId || !subject || !message) {
+                        showNotification("Please fill all fields", "error");
+                        return;
+                    }
+                    addSupportTicket(recipientType, recipientId, subject, message);
+                    showNotification("✅ Support request sent! Our team will respond within 24h.", "success");
+                    supportForm.reset();
+                    // reset dropdown to default state
+                    recipientTypeSelect.value = 'admin';
+                    updateRecipientDropdown('admin');
+                });
+            }
+        });
+
+        function escapeHtml(str) {
+            if(!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if(m === '&') return '&amp;';
+                if(m === '<') return '&lt;';
+                if(m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // shared-settings.js - Include this in all dashboard HTML files
+        
+        let globalSettings = {
+            siteTitle: "AgriHub",
+            contactEmail: "admin@agrihub.com",
+            phone: "+254700000000",
+            serviceFeePercent: 10,
+            currency: "KSH",
+            maintenanceMode: false
+        };
+
+        let settingsChangeListeners = [];
+
+        // Load settings from server
+        async function loadGlobalSettings() {
+            try {
+                const response = await fetch(`${API_BASE}/api/settings`);
+                if (!response.ok) throw new Error('Failed to fetch settings');
+                const settings = await response.json();
+                
+                // Update global settings
+                Object.assign(globalSettings, settings);
+                
+                // Notify all listeners
+                notifySettingsListeners();
+                
+                // Store in localStorage as cache
+                localStorage.setItem('agrihub_global_settings', JSON.stringify(globalSettings));
+                
+                return globalSettings;
+            } catch (error) {
+                console.error('Error loading settings:', error);
+                // Fallback to localStorage
+                const cached = localStorage.getItem('agrihub_global_settings');
+                if (cached) {
+                    Object.assign(globalSettings, JSON.parse(cached));
+                    notifySettingsListeners();
+                }
+                return globalSettings;
+            }
+        }
+
+        // Get current settings
+        function getCurrentSettings() {
+            return { ...globalSettings };
+        }
+
+        // Add listener for settings changes
+        function onSettingsChange(callback) {
+            settingsChangeListeners.push(callback);
+            // Immediately call with current settings
+            callback(globalSettings);
+        }
+
+        // Notify all listeners of settings change
+        function notifySettingsListeners() {
+            settingsChangeListeners.forEach(callback => {
+                try {
+                    callback(globalSettings);
+                } catch (e) {
+                    console.error('Error in settings listener:', e);
+                }
+            });
+        }
+
+        // Calculate final price with current service fee
+        function calculateFinalPrice(basePrice, quantity = 1) {
+            const fee = globalSettings.serviceFeePercent || 10;
+            const subtotal = basePrice * quantity;
+            const serviceFee = subtotal * (fee / 100);
+            return {
+                subtotal: subtotal,
+                serviceFee: serviceFee,
+                total: subtotal + serviceFee,
+                serviceFeePercent: fee
+            };
+        }
+
+        // Format price with currency
+        function formatPrice(amount) {
+            return `${globalSettings.currency} ${amount.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
+        }
+
+        // Update all price displays on the page
+        function updateAllPriceDisplays() {
+            // Find all elements with data-price attribute and recalculate
+            document.querySelectorAll('[data-price]').forEach(element => {
+                const basePrice = parseFloat(element.getAttribute('data-price'));
+                const quantity = parseInt(element.getAttribute('data-quantity') || '1');
+                if (!isNaN(basePrice)) {
+                    const { total, serviceFeePercent } = calculateFinalPrice(basePrice, quantity);
+                    element.textContent = formatPrice(total);
+                    
+                    // Update service fee display if exists
+                    const feeElement = element.closest('.product-item')?.querySelector('.service-fee-display');
+                    if (feeElement) {
+                        feeElement.textContent = `${serviceFeePercent}%`;
+                    }
+                }
+            });
+            
+            // Update all elements with class 'service-fee-percent'
+            document.querySelectorAll('.service-fee-percent').forEach(element => {
+                element.textContent = globalSettings.serviceFeePercent;
+            });
+            
+            // Update currency displays
+            document.querySelectorAll('.currency-symbol').forEach(element => {
+                element.textContent = globalSettings.currency;
+            });
+        }
+
+        // Initialize WebSocket connection for real-time updates
+        function initSettingsWebSocket() {
+            const socket = io(API_BASE);
+            
+            socket.on('settingsUpdated', (newSettings) => {
+                console.log('Settings updated in real-time:', newSettings);
+                
+                // Update global settings
+                Object.assign(globalSettings, newSettings);
+                
+                // Save to localStorage
+                localStorage.setItem('agrihub_global_settings', JSON.stringify(globalSettings));
+                
+                // Notify all listeners
+                notifySettingsListeners();
+                
+                // Update all price displays on the page
+                updateAllPriceDisplays();
+                
+                // Show notification to user
+                showSettingsUpdateNotification(newSettings);
+            });
+            
+            return socket;
+        }
+
+        function showSettingsUpdateNotification(settings) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'settings-update-notification';
+            notification.innerHTML = `
+                <div style="background: #2b7a3e; color: white; padding: 12px 20px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                    <strong>⚙️ Platform Settings Updated</strong><br>
+                    <small>Service fee changed to ${settings.serviceFeePercent}% | Currency: ${settings.currency}</small>
+                </div>
+            `;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '10000';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Auto-initialize when script loads
+        if (typeof document !== 'undefined') {
+            document.addEventListener('DOMContentLoaded', async () => {
+                await loadGlobalSettings();
+                
+                // Add WebSocket if available
+                if (typeof io !== 'undefined') {
+                    initSettingsWebSocket();
+                }
+                
+                // Update all price displays initially
+                updateAllPriceDisplays();
+            });
+        }
+    </script>
+</body>
+</html>

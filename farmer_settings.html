@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - AgriHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .settings-container {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .settings-section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .settings-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .settings-section h3 {
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .profile-info {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .profile-details {
+            flex: 1;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .info-label {
+            width: 120px;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .info-value {
+            flex: 1;
+            color: #555;
+        }
+
+        .form-group-settings {
+            margin-bottom: 20px;
+        }
+
+        .form-group-settings label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .form-group-settings input,
+        .form-group-settings select {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-save {
+            background: var(--accent-green);
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-save:hover {
+            background: var(--primary-green);
+        }
+
+        .danger-zone {
+            background: #fff5f5;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #dc3545;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .notification-item label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--accent-green);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" style="fill:white; width:24px; height:24px; margin-right:8px;">
+                    <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                </svg>
+                AgriHub
+            </div>
+            <a href="farmer_dashboard.html" class="menu-item">Add Product</a>
+            <a href="farmer_products.html" class="menu-item">My Products</a>
+            <a href="farmer_orders.html" class="menu-item">Orders Received</a>
+            <a href="farmer_advisory.html" class="menu-item">Expert Advice</a>
+            <a href="farmer_contacts.html" class="menu-item">Support & Contacts</a>
+            <a href="#" class="menu-item active">Settings</a>
+            <a href="index.html" class="menu-item" style="margin-top: auto; border:none; color: #ffadad;">Logout</a>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="dashboard-content">
+            <div class="dash-header">
+                <h2>Settings</h2>
+                <div class="user-profile" style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-weight:700; color:var(--primary-green);" id="farmerName">Farmer</span>
+                    <div style="width:40px; height:40px; background:var(--card-tan); border-radius:50%;"></div>
+                </div>
+            </div>
+
+            <div class="settings-container">
+                <!-- Profile Settings -->
+                <div class="settings-section">
+                    <h3>Profile Information</h3>
+                    <div class="profile-info">
+                        <div class="profile-avatar" id="profileAvatar">
+                            <span id="avatarInitials">JD</span>
+                        </div>
+                        <div class="profile-details">
+                            <div class="info-row">
+                                <div class="info-label">Full Name:</div>
+                                <div class="info-value" id="displayName"></div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Email:</div>
+                                <div class="info-value" id="displayEmail"></div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Role:</div>
+                                <div class="info-value">Farmer / Seller</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form id="profileForm">
+                        <div class="form-group-settings">
+                            <label>Update Full Name</label>
+                            <input type="text" id="fullname" placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group-settings">
+                            <label>Phone Number</label>
+                            <input type="tel" id="phone" placeholder="Enter your phone number">
+                        </div>
+                        <div class="form-group-settings">
+                            <label>Farm Location</label>
+                            <input type="text" id="location" placeholder="Enter your farm location">
+                        </div>
+                        <button type="submit" class="btn-save">Update Profile</button>
+                    </form>
+                </div>
+
+                <!-- Change Password -->
+                <div class="settings-section">
+                    <h3>Change Password</h3>
+                    <form id="passwordForm">
+                        <div class="form-group-settings">
+                            <label>Current Password</label>
+                            <input type="password" id="currentPassword" required>
+                        </div>
+                        <div class="form-group-settings">
+                            <label>New Password</label>
+                            <input type="password" id="newPassword" required>
+                        </div>
+                        <div class="form-group-settings">
+                            <label>Confirm New Password</label>
+                            <input type="password" id="confirmPassword" required>
+                        </div>
+                        <button type="submit" class="btn-save">Change Password</button>
+                    </form>
+                </div>
+
+                <!-- Notification Preferences -->
+                <div class="settings-section">
+                    <h3>Notification Preferences</h3>
+                    <div class="notification-item">
+                        <label>
+                            <span>📧 Email Notifications</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="emailNotifications" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="notification-item">
+                        <label>
+                            <span>🔔 Order Alerts</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="orderAlerts" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="notification-item">
+                        <label>
+                            <span>📱 SMS Notifications</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="smsNotifications">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <button onclick="savePreferences()" class="btn-save" style="margin-top: 20px;">Save Preferences</button>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="settings-section">
+                    <h3>Danger Zone</h3>
+                    <div class="danger-zone">
+                        <p><strong>Delete Account</strong></p>
+                        <p style="color: #666; font-size: 0.9rem; margin-top: 5px;">Once you delete your account, all your products and data will be permanently removed. This action cannot be undone.</p>
+                        <button onclick="deleteAccount()" class="btn-danger">Delete My Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API = "http://localhost:3000";
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = JSON.parse(localStorage.getItem('currentUser'));
+            if (!userData || userData.role !== 'seller') {
+                alert('Please login as a farmer first');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            document.getElementById('farmerName').textContent = userData.fullname;
+            
+            // Set avatar initials
+            const initials = userData.fullname.split(' ').map(n => n[0]).join('').toUpperCase();
+            document.getElementById('avatarInitials').textContent = initials;
+            
+            // Display current info
+            document.getElementById('displayName').textContent = userData.fullname;
+            document.getElementById('displayEmail').textContent = userData.email;
+            
+            // Load saved preferences
+            loadPreferences();
+            
+            // Profile update form
+            document.getElementById('profileForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await updateProfile(userData.id);
+            });
+            
+            // Password change form
+            document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await changePassword(userData.id);
+            });
+        });
+        
+        async function updateProfile(userId) {
+            const fullname = document.getElementById('fullname').value;
+            const phone = document.getElementById('phone').value;
+            const location = document.getElementById('location').value;
+            
+            if (!fullname) {
+                alert('Please enter your full name');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API}/api/update-profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        fullname: fullname,
+                        phone: phone,
+                        location: location
+                    })
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    alert('Profile updated successfully!');
+                    // Update localStorage
+                    const userData = JSON.parse(localStorage.getItem('currentUser'));
+                    userData.fullname = fullname;
+                    localStorage.setItem('currentUser', JSON.stringify(userData));
+                    document.getElementById('farmerName').textContent = fullname;
+                    document.getElementById('displayName').textContent = fullname;
+                    
+                    // Update avatar initials
+                    const initials = fullname.split(' ').map(n => n[0]).join('').toUpperCase();
+                    document.getElementById('avatarInitials').textContent = initials;
+                    
+                    // Clear form
+                    document.getElementById('fullname').value = '';
+                    document.getElementById('phone').value = '';
+                    document.getElementById('location').value = '';
+                } else {
+                    alert(data.message || 'Failed to update profile');
+                }
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                alert('An error occurred while updating profile');
+            }
+        }
+        
+        async function changePassword(userId) {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                alert('Please fill in all password fields');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                alert('New passwords do not match');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                alert('New password must be at least 6 characters long');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API}/api/change-password`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        current_password: currentPassword,
+                        new_password: newPassword
+                    })
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    alert('Password changed successfully!');
+                    document.getElementById('passwordForm').reset();
+                } else {
+                    alert(data.message || 'Failed to change password');
+                }
+            } catch (error) {
+                console.error('Error changing password:', error);
+                alert('An error occurred while changing password');
+            }
+        }
+        
+        function loadPreferences() {
+            const prefs = JSON.parse(localStorage.getItem('farmerPreferences')) || {
+                emailNotifications: true,
+                orderAlerts: true,
+                smsNotifications: false
+            };
+            
+            document.getElementById('emailNotifications').checked = prefs.emailNotifications;
+            document.getElementById('orderAlerts').checked = prefs.orderAlerts;
+            document.getElementById('smsNotifications').checked = prefs.smsNotifications;
+        }
+        
+        function savePreferences() {
+            const preferences = {
+                emailNotifications: document.getElementById('emailNotifications').checked,
+                orderAlerts: document.getElementById('orderAlerts').checked,
+                smsNotifications: document.getElementById('smsNotifications').checked
+            };
+            
+            localStorage.setItem('farmerPreferences', JSON.stringify(preferences));
+            alert('Preferences saved successfully!');
+        }
+        
+        async function deleteAccount() {
+            const confirmDelete = confirm('Are you absolutely sure you want to delete your account? This will permanently remove all your products and data.');
+            
+            if (confirmDelete) {
+                const userData = JSON.parse(localStorage.getItem('currentUser'));
+                const password = prompt('Please enter your password to confirm account deletion:');
+                
+                if (!password) return;
+                
+                try {
+                    const response = await fetch(`${API}/api/delete-account`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            user_id: userData.id,
+                            password: password
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    if (response.ok) {
+                        alert('Your account has been deleted. We\'re sorry to see you go.');
+                        localStorage.removeItem('currentUser');
+                        window.location.href = 'index.html';
+                    } else {
+                        alert(data.message || 'Failed to delete account');
+                    }
+                } catch (error) {
+                    console.error('Error deleting account:', error);
+                    alert('An error occurred while deleting account');
+                }
+            }
+        }
+    </script>
+    <script src="shared_settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard - AgriHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(145deg, #1a3f2a 0%, #0e2a1c 100%);
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            color: white;
+        }
+
+        .sidebar .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            font-weight: 600;
+            margin-bottom: 48px;
+            border-left: 3px solid #d4af37;
+            padding-left: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+
+        .menu-item {
+            display: block;
+            padding: 12px 16px;
+            margin: 6px 0;
+            border-radius: 16px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .menu-item:hover {
+            background: rgba(255,255,255,0.12);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .menu-item.active {
+            background: #d4af37;
+            color: #1e3a2b;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-content {
+            flex: 1;
+            padding: 32px 40px;
+            background-color: #FAFAFA;
+            overflow-y: auto;
+        }
+
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .dash-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-green);
+            font-size: 2rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .weather-widget {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .weather-info h3 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .weather-icon {
+            font-size: 3rem;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .portal-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 280px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: var(--accent-green);
+        }
+
+        .portal-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: #f4f9f4;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+        }
+
+        .portal-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .portal-card p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .portal-link {
+            margin-top: 15px;
+            color: var(--accent-green);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e2a1e;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+            .sidebar .logo {
+                margin-bottom: 20px;
+            }
+            .dashboard-content {
+                padding: 20px;
+            }
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" style="fill:white; width:24px; height:24px; margin-right:8px;">
+                    <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                </svg>
+                AgriHub
+            </div>
+            <a href="buyer_dashboard.html" class="menu-item active">🏠 Home</a>
+            <a href="buyer_products.html" class="menu-item">🛍️ Shop Products</a>
+            <a href="buyer_orders.html" class="menu-item">📦 My Orders</a>
+            <a href="buyer_settings.html" class="menu-item">⚙️ Settings</a>
+            <a href="index.html" class="menu-item" style="margin-top: auto; border:none; color: #ffadad;">🚪 Logout</a>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="dashboard-content">
+            <div class="dash-header">
+                <h2>Welcome Back, <span id="buyerName">Buyer</span>!</h2>
+                <div class="user-profile">
+                    <span style="font-weight:700; color:var(--primary-green);" id="buyerEmail"></span>
+                    <div style="width:40px; height:40px; background:var(--card-tan); border-radius:50%; display: flex; align-items: center; justify-content: center; color: white;">
+                        👤
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather Widget -->
+            <div class="weather-widget">
+                <div class="weather-info">
+                    <h3 id="temperature">24°C</h3>
+                    <p id="location">Nakuru, Kenya</p>
+                    <p style="font-size: 0.8rem; margin-top:5px;" id="weatherDesc">Partly Cloudy • Humidity: 65%</p>
+                </div>
+                <div class="weather-icon" id="weatherIcon">⛅</div>
+                <div style="text-align: right;">
+                    <p style="font-weight: 700;">Tomorrow</p>
+                    <p id="tomorrowWeather">Rainy 🌧️ 21°C</p>
+                </div>
+            </div>
+
+            <!-- Market Header -->
+            <div class="market-header">
+                <h1 style="font-size: 1.8rem; color: var(--primary-green);">What would you like to do?</h1>
+                <p style="color: #666; margin-top: 10px;">Access the marketplace, get advice, or check prices.</p>
+            </div>
+
+            <!-- The 3 Main Options -->
+            <div class="portal-grid">
+                
+                <!-- 1. Marketplace -->
+                <a href="buyer_products.html" class="portal-card">
+                    <div class="portal-icon">🛒</div>
+                    <h3>Buy Fresh Produce</h3>
+                    <p>Browse verified farmers and buy vegetables, fruits, and grains directly.</p>
+                    <span class="portal-link">Go to Shop &rarr;</span>
+                </a>
+
+                <!-- 2. Advisory -->
+                <a href="buyer_advisory.html" class="portal-card">
+                    <div class="portal-icon">🌱</div>
+                    <h3>Expert Advisory</h3>
+                    <p>Get guidance on crop management, pest control, and livestock.</p>
+                    <span class="portal-link">Learn More &rarr;</span>
+                </a>
+
+                <!-- 3. Market Info -->
+                <a href="market-info.html" class="portal-card">
+                    <div class="portal-icon">📈</div>
+                    <h3>Market Trends</h3>
+                    <p>View real-time price updates for commodities in Nakuru market.</p>
+                    <span class="portal-link">View Prices &rarr;</span>
+                </a>
+
+            </div>
+
+            <!-- Recent Orders Section -->
+            <div style="margin-top: 40px;">
+                <h3 style="color: var(--primary-green); margin-bottom: 20px;">📦 Recent Orders</h3>
+                <div id="recentOrders" style="background: white; border-radius: 16px; padding: 20px;">
+                    <div class="loading">Loading your recent orders...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        const API = "http://localhost:3000";
+        let currentUser = null;
+        let allOrders = [];
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                alert('Please login first');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            if (currentUser.role !== 'buyer') {
+                alert('This page is for buyers only');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            document.getElementById('buyerName').textContent = currentUser.fullname;
+            document.getElementById('buyerEmail').textContent = currentUser.email;
+            
+            await loadWeather();
+            await loadRecentOrders();
+        });
+        
+        async function loadWeather() {
+            try {
+                // Static data for now
+                document.getElementById('temperature').textContent = '24°C';
+                document.getElementById('location').textContent = 'Nakuru, Kenya';
+                document.getElementById('weatherDesc').textContent = 'Partly Cloudy • Humidity: 65%';
+                document.getElementById('weatherIcon').textContent = '⛅';
+                document.getElementById('tomorrowWeather').textContent = 'Rainy 🌧️ 21°C';
+            } catch (error) {
+                console.error('Error loading weather:', error);
+            }
+        }
+        
+        async function loadRecentOrders() {
+            try {
+                const response = await fetch(`${API}/api/transactions`);
+                const allTransactions = await response.json();
+                
+                allOrders = allTransactions.filter(tx => {
+                    const buyerId = tx.buyer_id || tx.user_id || tx.buyerId;
+                    return buyerId == currentUser.id;
+                }).map(tx => ({
+                    id: tx.id || tx.transaction_id,
+                    product_name: tx.product || tx.product_name || 'Unknown Product',
+                    quantity: tx.quantity || 1,
+                    total_price: tx.total_price || tx.amount || 0,
+                    status: tx.status || 'completed',
+                    created_at: tx.created_at || tx.createdAt || tx.order_date
+                }));
+                
+                const recentOrders = allOrders.slice(0, 3);
+                displayRecentOrders(recentOrders);
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                document.getElementById('recentOrders').innerHTML = '<p style="color: #666; text-align: center;">Unable to load recent orders</p>';
+            }
+        }
+        
+        function displayRecentOrders(orders) {
+            const container = document.getElementById('recentOrders');
+            
+            if (!orders || orders.length === 0) {
+                container.innerHTML = '<p style="color: #666; text-align: center;">No orders yet. Start shopping!</p>';
+                return;
+            }
+            
+            container.innerHTML = orders.map(order => `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #f0f0f0;">
+                    <div>
+                        <strong style="color: var(--primary-green);">${escapeHtml(order.product_name)}</strong>
+                        <div style="font-size: 0.85rem; color: #666;">Quantity: ${order.quantity}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div><strong>Ksh ${parseFloat(order.total_price).toLocaleString()}</strong></div>
+                        <div style="font-size: 0.8rem; color: ${order.status === 'completed' ? '#2e7d32' : '#f57c00'}">
+                            ${order.status === 'completed' ? '✓ Completed' : '⏳ Pending'}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML += `
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="buyer_orders.html" style="color: var(--accent-green); text-decoration: none; font-weight: 600;">View All Orders →</a>
+                </div>
+            `;
+        }
+        
+        function showNotification(message, type) {
+            const existingToast = document.querySelector('.toast-notification');
+            if(existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.style.background = type === 'success' ? '#2e7d32' : type === 'error' ? '#c62828' : '#1976d2';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if(toast) toast.remove();
+            }, 3000);
+        }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // shared-settings.js - Include this in all dashboard HTML files
+        
+        let globalSettings = {
+            siteTitle: "AgriHub",
+            contactEmail: "admin@agrihub.com",
+            phone: "+254700000000",
+            serviceFeePercent: 10,
+            currency: "KSH",
+            maintenanceMode: false
+        };
+
+        let settingsChangeListeners = [];
+
+        // Load settings from server
+        async function loadGlobalSettings() {
+            try {
+                const response = await fetch(`${API_BASE}/api/settings`);
+                if (!response.ok) throw new Error('Failed to fetch settings');
+                const settings = await response.json();
+                
+                // Update global settings
+                Object.assign(globalSettings, settings);
+                
+                // Notify all listeners
+                notifySettingsListeners();
+                
+                // Store in localStorage as cache
+                localStorage.setItem('agrihub_global_settings', JSON.stringify(globalSettings));
+                
+                return globalSettings;
+            } catch (error) {
+                console.error('Error loading settings:', error);
+                // Fallback to localStorage
+                const cached = localStorage.getItem('agrihub_global_settings');
+                if (cached) {
+                    Object.assign(globalSettings, JSON.parse(cached));
+                    notifySettingsListeners();
+                }
+                return globalSettings;
+            }
+        }
+
+        // Get current settings
+        function getCurrentSettings() {
+            return { ...globalSettings };
+        }
+
+        // Add listener for settings changes
+        function onSettingsChange(callback) {
+            settingsChangeListeners.push(callback);
+            // Immediately call with current settings
+            callback(globalSettings);
+        }
+
+        // Notify all listeners of settings change
+        function notifySettingsListeners() {
+            settingsChangeListeners.forEach(callback => {
+                try {
+                    callback(globalSettings);
+                } catch (e) {
+                    console.error('Error in settings listener:', e);
+                }
+            });
+        }
+
+        // Calculate final price with current service fee
+        function calculateFinalPrice(basePrice, quantity = 1) {
+            const fee = globalSettings.serviceFeePercent || 10;
+            const subtotal = basePrice * quantity;
+            const serviceFee = subtotal * (fee / 100);
+            return {
+                subtotal: subtotal,
+                serviceFee: serviceFee,
+                total: subtotal + serviceFee,
+                serviceFeePercent: fee
+            };
+        }
+
+        // Format price with currency
+        function formatPrice(amount) {
+            return `${globalSettings.currency} ${amount.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
+        }
+
+        // Update all price displays on the page
+        function updateAllPriceDisplays() {
+            // Find all elements with data-price attribute and recalculate
+            document.querySelectorAll('[data-price]').forEach(element => {
+                const basePrice = parseFloat(element.getAttribute('data-price'));
+                const quantity = parseInt(element.getAttribute('data-quantity') || '1');
+                if (!isNaN(basePrice)) {
+                    const { total, serviceFeePercent } = calculateFinalPrice(basePrice, quantity);
+                    element.textContent = formatPrice(total);
+                    
+                    // Update service fee display if exists
+                    const feeElement = element.closest('.product-item')?.querySelector('.service-fee-display');
+                    if (feeElement) {
+                        feeElement.textContent = `${serviceFeePercent}%`;
+                    }
+                }
+            });
+            
+            // Update all elements with class 'service-fee-percent'
+            document.querySelectorAll('.service-fee-percent').forEach(element => {
+                element.textContent = globalSettings.serviceFeePercent;
+            });
+            
+            // Update currency displays
+            document.querySelectorAll('.currency-symbol').forEach(element => {
+                element.textContent = globalSettings.currency;
+            });
+        }
+
+        // Initialize WebSocket connection for real-time updates
+        function initSettingsWebSocket() {
+            const socket = io(API_BASE);
+            
+            socket.on('settingsUpdated', (newSettings) => {
+                console.log('Settings updated in real-time:', newSettings);
+                
+                // Update global settings
+                Object.assign(globalSettings, newSettings);
+                
+                // Save to localStorage
+                localStorage.setItem('agrihub_global_settings', JSON.stringify(globalSettings));
+                
+                // Notify all listeners
+                notifySettingsListeners();
+                
+                // Update all price displays on the page
+                updateAllPriceDisplays();
+                
+                // Show notification to user
+                showSettingsUpdateNotification(newSettings);
+            });
+            
+            return socket;
+        }
+
+        function showSettingsUpdateNotification(settings) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'settings-update-notification';
+            notification.innerHTML = `
+                <div style="background: #2b7a3e; color: white; padding: 12px 20px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                    <strong>⚙️ Platform Settings Updated</strong><br>
+                    <small>Service fee changed to ${settings.serviceFeePercent}% | Currency: ${settings.currency}</small>
+                </div>
+            `;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '10000';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Auto-initialize when script loads
+        if (typeof document !== 'undefined') {
+            document.addEventListener('DOMContentLoaded', async () => {
+                await loadGlobalSettings();
+                
+                // Add WebSocket if available
+                if (typeof io !== 'undefined') {
+                    initSettingsWebSocket();
+                }
+                
+                // Update all price displays initially
+                updateAllPriceDisplays();
+            });
+        }
+    </script>
+</body>
+</html>

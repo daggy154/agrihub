@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Products - AgriHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #f5f5f5;
+        }
+        
+        .product-info {
+            padding: 15px;
+            flex: 1;
+        }
+        
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 8px;
+        }
+        
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin: 8px 0;
+        }
+        
+        .product-price small {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: normal;
+        }
+        
+        .product-description {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            min-height: 40px;
+        }
+        
+        .product-meta {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+        
+        .farmer-name {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        
+        .stock-info {
+            font-size: 0.85rem;
+            color: #f57c00;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .stock-info.out-of-stock {
+            color: #c62828;
+        }
+        
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .quantity-input {
+            width: 70px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .btn-buy {
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            flex: 1;
+        }
+        
+        .btn-buy:hover:not(:disabled) {
+            background: var(--primary-green);
+            transform: translateY(-2px);
+        }
+        
+        .btn-buy:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .category-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 20px;
+            border: 2px solid var(--primary-green);
+            background: white;
+            color: var(--primary-green);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary-green);
+            color: white;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e2a1e;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+            .dashboard-content {
+                padding: 20px;
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" style="fill:white; width:24px; height:24px; margin-right:8px;">
+                    <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                </svg>
+                AgriHub
+            </div>
+            <a href="buyer_dashboard.html" class="menu-item">🏠 Home</a>
+            <a href="buyer_products.html" class="menu-item active">🛍️ Shop Products</a>
+            <a href="buyer_orders.html" class="menu-item">📦 My Orders</a>
+            <a href="buyer_settings.html" class="menu-item">⚙️ Settings</a>
+            <a href="index.html" class="menu-item" style="margin-top: auto; border:none; color: #ffadad;">🚪 Logout</a>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="dashboard-content">
+            <div class="dash-header">
+                <h2>Fresh Products</h2>
+                <div class="user-profile">
+                    <span style="font-weight:700; color:var(--primary-green);" id="buyerName">Buyer</span>
+                    <div style="width:40px; height:40px; background:var(--card-tan); border-radius:50%; display: flex; align-items: center; justify-content: center; color: white;">👤</div>
+                </div>
+            </div>
+
+            <div class="category-filter">
+                <button class="filter-btn active" data-category="all">All Products</button>
+                <button class="filter-btn" data-category="Vegetables">🥬 Vegetables</button>
+                <button class="filter-btn" data-category="Fruits">🍎 Fruits</button>
+                <button class="filter-btn" data-category="Grains">🌾 Grains</button>
+                <button class="filter-btn" data-category="Dairy">🥛 Dairy</button>
+            </div>
+
+            <div id="productsContainer" class="products-grid">
+                <div class="loading">Loading products...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        const API = "http://localhost:3000";
+        let allProducts = [];
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                alert('Please login first');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            if (currentUser.role !== 'buyer') {
+                alert('This page is for buyers only');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            document.getElementById('buyerName').textContent = currentUser.fullname;
+            await loadProducts();
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const category = this.dataset.category;
+                    filterProducts(category);
+                });
+            });
+        });
+        
+        async function loadProducts() {
+            try {
+                const response = await fetch(`${API}/api/products`);
+                const products = await response.json();
+                allProducts = products;
+                displayProducts(allProducts);
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('productsContainer').innerHTML = 
+                    '<div class="loading">Error loading products. Please try again.</div>';
+            }
+        }
+        
+        function displayProducts(products) {
+            const container = document.getElementById('productsContainer');
+            
+            if (!products || products.length === 0) {
+                container.innerHTML = '<div class="loading">No products available.</div>';
+                return;
+            }
+            
+            container.innerHTML = products.map(product => {
+                const finalPrice = product.price * 1.10; // Add 10% service fee
+                const isOutOfStock = product.quantity <= 0;
+                const unit = getUnit(product.category, product.name);
+                
+                return `
+                    <div class="product-card" data-product-id="${product.id}">
+                        <img src="${product.image_url || 'https://via.placeholder.com/300x200?text=No+Image'}" 
+                             alt="${product.name}" 
+                             class="product-image"
+                             onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
+                        <div class="product-info">
+                            <div class="product-name">${escapeHtml(product.name)}</div>
+                            <div class="product-price">
+                                Ksh ${finalPrice.toFixed(2)} <small>incl. fee</small>
+                            </div>
+                            <div class="product-description">${escapeHtml(product.description || 'Fresh from the farm')}</div>
+                            <div class="product-meta">
+                                <div class="farmer-name">👨‍🌾 ${escapeHtml(product.farmer_name || 'Local Farmer')}</div>
+                                <div class="stock-info ${isOutOfStock ? 'out-of-stock' : ''}">
+                                    ${isOutOfStock ? '❌ Out of Stock' : `📦 Available: ${product.quantity} ${unit}`}
+                                </div>
+                                <div class="quantity-container">
+                                    <input type="number" 
+                                           id="qty-${product.id}" 
+                                           class="quantity-input" 
+                                           value="1" 
+                                           min="1" 
+                                           max="${product.quantity}"
+                                           ${isOutOfStock ? 'disabled' : ''}>
+                                    <button onclick="buyProduct(${product.id}, ${product.price}, ${product.quantity})" 
+                                            class="btn-buy"
+                                            ${isOutOfStock ? 'disabled' : ''}>
+                                        ${isOutOfStock ? 'Out of Stock' : 'Buy Now'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function getUnit(category, productName) {
+            const name = productName?.toLowerCase() || '';
+            if (category === 'Dairy' || name.includes('milk') || name.includes('cheese')) {
+                return 'liters';
+            } else if (name.includes('egg')) {
+                return 'trays';
+            } else {
+                return 'kg';
+            }
+        }
+        
+        function filterProducts(category) {
+            if (category === 'all') {
+                displayProducts(allProducts);
+            } else {
+                const filtered = allProducts.filter(product => product.category === category);
+                displayProducts(filtered);
+            }
+        }
+        
+        async function buyProduct(productId, basePrice, availableQuantity) {
+            if (!currentUser) {
+                alert('Please login to purchase');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const quantityInput = document.getElementById(`qty-${productId}`);
+            let quantity = 1;
+            
+            if (quantityInput) {
+                quantity = parseInt(quantityInput.value);
+                if (isNaN(quantity) || quantity < 1) {
+                    quantity = 1;
+                }
+                if (quantity > availableQuantity) {
+                    showNotification(`Only ${availableQuantity} ${getUnit('', '')} available`, 'error');
+                    return;
+                }
+            }
+            
+            const totalPrice = basePrice * quantity * 1.10; // Add 10% service fee
+            const product = allProducts.find(p => p.id === productId);
+            const unit = getUnit(product?.category, product?.name);
+            
+            if (!confirm(`Confirm purchase of ${quantity} ${unit} for Ksh ${totalPrice.toFixed(2)}?`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API}/buy-product`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        product_id: productId,
+                        buyer_id: currentUser.id,
+                        total_price: totalPrice,
+                        quantity: quantity,
+                        base_price: basePrice,
+                        service_fee_percent: 10
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showNotification('Purchase successful! Quantity updated.', 'success');
+                    
+                    // Update the product quantity locally
+                    const productIndex = allProducts.findIndex(p => p.id === productId);
+                    if (productIndex !== -1) {
+                        allProducts[productIndex].quantity -= quantity;
+                        if (allProducts[productIndex].quantity < 0) allProducts[productIndex].quantity = 0;
+                        
+                        // Refresh the display
+                        const currentFilter = document.querySelector('.filter-btn.active').dataset.category;
+                        filterProducts(currentFilter);
+                    }
+                } else {
+                    showNotification(data.message || 'Purchase failed', 'error');
+                }
+            } catch (error) {
+                console.error('Error buying product:', error);
+                showNotification('An error occurred while purchasing', 'error');
+            }
+        }
+        
+        function showNotification(message, type) {
+            const existingToast = document.querySelector('.toast-notification');
+            if(existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.style.background = type === 'success' ? '#2e7d32' : type === 'error' ? '#c62828' : '#1976d2';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if(toast) toast.remove();
+            }, 3000);
+        }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // shared-settings.js - Include this in all dashboard HTML files
+
+        let globalSettings = {
+            siteTitle: "AgriHub",
+            contactEmail: "admin@agrihub.com",
+            phone: "+254700000000",
+            serviceFeePercent: 10,
+            currency: "KSH",
+            maintenanceMode: false
+        };
+
+        let settingsChangeListeners = [];
+
+        // Load settings from server
+        async function loadGlobalSettings() {
+            try {
+                const response = await fetch(`${API_BASE}/api/settings`);
+                if (!response.ok) throw new Error('Failed to fetch settings');
+                const settings = await response.json();
+                
+                // Update global settings
+                Object.assign(globalSettings, settings);
+                
+                // Notify all listeners
+                notifySettingsListeners();
+                
+                // Store in localStorage as cache
+                localStorage.setItem('agrihub_global_settings', JSON.stringify(globalSettings));
+                
+                return globalSettings;
+            } catch (error) {
+                console.error('Error loading settings:', error);
+                // Fallback to localStorage
+                const cached = localStorage.getItem('agrihub_global_settings');
+                if (cached) {
+                    Object.assign(globalSettings, JSON.parse(cached));
+                    notifySettingsListeners();
+                }
+                return globalSettings;
+            }
+        }
+
+        // Get current settings
+        function getCurrentSettings() {
+            return { ...globalSettings };
+        }
+
+        // Add listener for settings changes
+        function onSettingsChange(callback) {
+            settingsChangeListeners.push(callback);
+            // Immediately call with current settings
+            callback(globalSettings);
+        }
+
+        // Notify all listeners of settings change
+        function notifySettingsListeners() {
+            settingsChangeListeners.forEach(callback => {
+                try {
+                    callback(globalSettings);
+                } catch (e) {
+                    console.error('Error in settings listener:', e);
+                }
+            });
+        }
+
+        // Calculate final price with current service fee
+        function calculateFinalPrice(basePrice, quantity = 1) {
+            const fee = globalSettings.serviceFeePercent || 10;
+            const subtotal = basePrice * quantity;
+            const serviceFee = subtotal * (fee / 100);
+            return {
+                subtotal: subtotal,
+                serviceFee: serviceFee,
+                total: subtotal + serviceFee,
+                serviceFeePercent: fee
+            };
+        }
+
+        // Format price with currency
+        function formatPrice(amount) {
+            return `${globalSettings.currency} ${amount.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
+        }
+
+        // Update all price displays on the page
+        function updateAllPriceDisplays() {
+            // Find all elements with data-price attribute and recalculate
+            document.querySelectorAll('[data-price]').forEach(element => {
+                const basePrice = parseFloat(element.getAttribute('data-price'));
+                const quantity = parseInt(element.getAttribute('data-quantity') || '1');
+                if (!isNaN(basePrice)) {
+                    const { total, serviceFeePercent } = calculateFinalPrice(basePrice, quantity);
+                    element.textContent = formatPrice(total);
+                    
+                    // Update service fee display if exists
+                    const feeElement = element.closest('.product-item')?.querySelector('.service-fee-display');
+                    if (feeElement) {
+                        feeElement.textContent = `${serviceFeePercent}%`;
+                    }
+                }
+            });
+            
+            // Update all elements with class 'service-fee-percent'
+            document.querySelectorAll('.service-fee-percent').forEach(element => {
+                element.textContent = globalSettings.serviceFeePercent;
+            });
+            
+            // Update currency displays
+            document.querySelectorAll('.currency-symbol').forEach(element => {
+                element.textContent = globalSettings.currency;
+            });
+        }
+
+        // Initialize WebSocket connection for real-time updates
+        function initSettingsWebSocket() {
+            const socket = io(API_BASE);
+            
+            socket.on('settingsUpdated', (newSettings) => {
+                console.log('Settings updated in real-time:', newSettings);
+                
+                // Update global settings
+                Object.assign(globalSettings, newSettings);
+                
+                // Save to localStorage
+                localStorage.setItem('agrihub_global_settings', JSON.stringify(globalSettings));
+                
+                // Notify all listeners
+                notifySettingsListeners();
+                
+                // Update all price displays on the page
+                updateAllPriceDisplays();
+                
+                // Show notification to user
+                showSettingsUpdateNotification(newSettings);
+            });
+            
+            return socket;
+        }
+
+        function showSettingsUpdateNotification(settings) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'settings-update-notification';
+            notification.innerHTML = `
+                <div style="background: #2b7a3e; color: white; padding: 12px 20px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                    <strong>⚙️ Platform Settings Updated</strong><br>
+                    <small>Service fee changed to ${settings.serviceFeePercent}% | Currency: ${settings.currency}</small>
+                </div>
+            `;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '10000';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Auto-initialize when script loads
+        if (typeof document !== 'undefined') {
+            document.addEventListener('DOMContentLoaded', async () => {
+                await loadGlobalSettings();
+                
+                // Add WebSocket if available
+                if (typeof io !== 'undefined') {
+                    initSettingsWebSocket();
+                }
+                
+                // Update all price displays initially
+                updateAllPriceDisplays();
+            });
+        }
+    </script>
+</body>
+</html>

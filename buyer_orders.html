@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - AgriHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .orders-container {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .order-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+        
+        .order-card:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .order-header {
+            background: #f9f9f9;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .order-id {
+            font-weight: 700;
+            color: var(--primary-green);
+            font-size: 1.1rem;
+        }
+        
+        .order-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .order-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-completed {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-pending {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .status-processing {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .status-cancelled {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .order-items {
+            padding: 20px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-details {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .item-meta {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .item-price {
+            text-align: right;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+        
+        .order-footer {
+            background: #fafafa;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .order-total {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+        
+        .btn-track {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .btn-track:hover {
+            background: var(--accent-green);
+        }
+        
+        .empty-orders {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-orders svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .filter-section {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 20px;
+            border: 2px solid var(--primary-green);
+            background: white;
+            color: var(--primary-green);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary-green);
+            color: white;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e2a1e;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
+        }
+    </style>
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" style="fill:white; width:24px; height:24px; margin-right:8px;">
+                    <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                </svg>
+                AgriHub
+            </div>
+            <a href="buyer_dashboard.html" class="menu-item">🏠 Home</a>
+            <a href="buyer_products.html" class="menu-item">🛍️ Shop Products</a>
+            <a href="buyer_orders.html" class="menu-item active">📦 My Orders</a>
+            <a href="buyer_settings.html" class="menu-item">⚙️ Settings</a>
+            <a href="index.html" class="menu-item" style="margin-top: auto; border:none; color: #ffadad;">🚪 Logout</a>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="dashboard-content">
+            <div class="dash-header">
+                <h2>My Orders</h2>
+                <div class="user-profile" style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-weight:700; color:var(--primary-green);" id="buyerName">Buyer</span>
+                    <div style="width:40px; height:40px; background:var(--card-tan); border-radius:50%;"></div>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <button class="filter-btn active" data-status="all">All Orders</button>
+                <button class="filter-btn" data-status="completed">Completed</button>
+                <button class="filter-btn" data-status="pending">Pending</button>
+                <button class="filter-btn" data-status="processing">Processing</button>
+                <button class="filter-btn" data-status="cancelled">Cancelled</button>
+            </div>
+
+            <div id="ordersContainer" class="orders-container">
+                <div class="loading">Loading your orders...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        const API = "http://localhost:3000";
+        let allOrders = [];
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Get current user from localStorage
+            currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                alert('Please login first');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            if (currentUser.role !== 'buyer') {
+                alert('This page is for buyers only');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            document.getElementById('buyerName').textContent = currentUser.fullname;
+            
+            // Load orders
+            await loadOrders();
+            
+            // Setup filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const status = this.dataset.status;
+                    filterOrders(status);
+                });
+            });
+        });
+        
+        async function loadOrders() {
+            try {
+                // Fetch transactions for the current buyer
+                const response = await fetch(`${API}/api/transactions`);
+                const allTransactions = await response.json();
+                
+                // Filter transactions for the current buyer
+                // Note: Adjust the field name based on your backend response
+                allOrders = allTransactions.filter(tx => {
+                    // Check if transaction belongs to current user
+                    // Your backend might use buyer_id, user_id, or buyerId
+                    const buyerId = tx.buyer_id || tx.user_id || tx.buyerId;
+                    return buyerId == currentUser.id;
+                }).map(tx => ({
+                    id: tx.id || tx.transaction_id,
+                    product_id: tx.product_id || tx.productId,
+                    product_name: tx.product || tx.product_name || 'Unknown Product',
+                    quantity: tx.quantity || 1,
+                    price: tx.price || tx.base_price || 0,
+                    tariff: tx.tariff || tx.service_fee || 0,
+                    total_price: tx.total_price || tx.amount || 0,
+                    status: tx.status || 'completed',
+                    created_at: tx.created_at || tx.createdAt || tx.order_date || tx.date,
+                    farmer_name: tx.farmer_name || 'Unknown Farmer'
+                }));
+                
+                // Sort orders by date (newest first)
+                allOrders.sort((a, b) => {
+                    if (!a.created_at) return 1;
+                    if (!b.created_at) return -1;
+                    return new Date(b.created_at) - new Date(a.created_at);
+                });
+                
+                displayOrders(allOrders);
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                document.getElementById('ordersContainer').innerHTML = 
+                    '<div class="empty-orders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-4.18A3 3 0 0 0 16 5.18V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v1.18A3 3 0 0 0 8.18 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zm-8-3h4v2h-4V4zM4 9h16v2H4V9z"/></svg><p>Error loading orders. Please try again.</p></div>';
+            }
+        }
+        
+        function formatDate(dateString) {
+            if (!dateString) return 'Date not available';
+            
+            try {
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) return 'Invalid date';
+                
+                return date.toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+            } catch (error) {
+                return 'Invalid date';
+            }
+        }
+        
+        function getStatusBadgeClass(status) {
+            switch(status?.toLowerCase()) {
+                case 'completed':
+                    return 'status-completed';
+                case 'pending':
+                    return 'status-pending';
+                case 'processing':
+                    return 'status-processing';
+                case 'cancelled':
+                    return 'status-cancelled';
+                default:
+                    return 'status-pending';
+            }
+        }
+        
+        function getStatusText(status) {
+            switch(status?.toLowerCase()) {
+                case 'completed':
+                    return '✓ Completed';
+                case 'pending':
+                    return '⏳ Pending';
+                case 'processing':
+                    return '🔄 Processing';
+                case 'cancelled':
+                    return '✗ Cancelled';
+                default:
+                    return status || 'Pending';
+            }
+        }
+        
+        function displayOrders(orders) {
+            const container = document.getElementById('ordersContainer');
+            
+            if (!orders || orders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-orders">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 7h-4.18A3 3 0 0 0 16 5.18V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v1.18A3 3 0 0 0 8.18 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zm-8-3h4v2h-4V4zM4 9h16v2H4V9z"/>
+                        </svg>
+                        <h3>No Orders Yet</h3>
+                        <p style="margin-top: 10px;">Start shopping to see your orders here!</p>
+                        <a href="buyer_dashboard.html" style="display: inline-block; margin-top: 20px; padding: 10px 30px; background: var(--primary-green); color: white; text-decoration: none; border-radius: 8px;">Browse Products</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = orders.map(order => `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <span class="order-id">Order #${order.id}</span>
+                            <span class="order-date" style="margin-left: 15px;">📅 ${formatDate(order.created_at)}</span>
+                        </div>
+                        <span class="order-status ${getStatusBadgeClass(order.status)}">${getStatusText(order.status)}</span>
+                    </div>
+                    
+                    <div class="order-items">
+                        <div class="order-item">
+                            <div class="item-details">
+                                <div class="item-name">${escapeHtml(order.product_name)}</div>
+                                <div class="item-meta">
+                                    Seller: ${escapeHtml(order.farmer_name)}<br>
+                                    Quantity: ${order.quantity} ${getUnit(order.product_name)}
+                                </div>
+                            </div>
+                            <div class="item-price">
+                                Ksh ${parseFloat(order.total_price).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-footer">
+                        <div class="order-total">
+                            Total Amount: Ksh ${parseFloat(order.total_price).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                        </div>
+                        <button class="btn-track" onclick="trackOrder(${order.id})">Track Order</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function getUnit(productName) {
+            // Simple logic to determine unit based on product name
+            const name = productName.toLowerCase();
+            if (name.includes('milk') || name.includes('cheese') || name.includes('yogurt')) {
+                return 'liters';
+            } else if (name.includes('egg')) {
+                return 'trays';
+            } else {
+                return 'kg';
+            }
+        }
+        
+        function filterOrders(status) {
+            if (status === 'all') {
+                displayOrders(allOrders);
+            } else {
+                const filtered = allOrders.filter(order => order.status?.toLowerCase() === status);
+                displayOrders(filtered);
+            }
+        }
+        
+        function trackOrder(orderId) {
+            // Find the order
+            const order = allOrders.find(o => o.id == orderId);
+            if (order) {
+                showNotification(`Order #${orderId} is being processed. You will receive updates soon.`, 'info');
+            } else {
+                showNotification('Order not found', 'error');
+            }
+        }
+        
+        function showNotification(message, type) {
+            const existingToast = document.querySelector('.toast-notification');
+            if(existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.style.background = type === 'success' ? '#2e7d32' : type === 'error' ? '#c62828' : '#1976d2';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if(toast) toast.remove();
+            }, 3000);
+        }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // shared-settings.js - Include this in all dashboard HTML files
+
+        let globalSettings = {
+            siteTitle: "AgriHub",
+            contactEmail: "admin@agrihub.com",
+            phone: "+254700000000",
+            serviceFeePercent: 10,
+            currency: "KSH",
+            maintenanceMode: false
+        };
+
+        let settingsChangeListeners = [];
+
+        // Load settings from server
+        async function loadGlobalSettings() {
+            try {
+                const response = await fetch(`${API_BASE}/api/settings`);
+                if (!response.ok) throw new Error('Failed to fetch settings');
+                const settings = await response.json();
+                
+                // Update global settings
+                Object.assign(globalSettings, settings);
+                
+                // Notify all listeners
+                notifySettingsListeners();
+                
+                // Store in localStorage as cache
+                localStorage.setItem('agrihub_global_settings', JSON.stringify(globalSettings));
+                
+                return globalSettings;
+            } catch (error) {
+                console.error('Error loading settings:', error);
+                // Fallback to localStorage
+                const cached = localStorage.getItem('agrihub_global_settings');
+                if (cached) {
+                    Object.assign(globalSettings, JSON.parse(cached));
+                    notifySettingsListeners();
+                }
+                return globalSettings;
+            }
+        }
+
+        // Get current settings
+        function getCurrentSettings() {
+            return { ...globalSettings };
+        }
+
+        // Add listener for settings changes
+        function onSettingsChange(callback) {
+            settingsChangeListeners.push(callback);
+            // Immediately call with current settings
+            callback(globalSettings);
+        }
+
+        // Notify all listeners of settings change
+        function notifySettingsListeners() {
+            settingsChangeListeners.forEach(callback => {
+                try {
+                    callback(globalSettings);
+                } catch (e) {
+                    console.error('Error in settings listener:', e);
+                }
+            });
+        }
+
+        // Calculate final price with current service fee
+        function calculateFinalPrice(basePrice, quantity = 1) {
+            const fee = globalSettings.serviceFeePercent || 10;
+            const subtotal = basePrice * quantity;
+            const serviceFee = subtotal * (fee / 100);
+            return {
+                subtotal: subtotal,
+                serviceFee: serviceFee,
+                total: subtotal + serviceFee,
+                serviceFeePercent: fee
+            };
+        }
+
+        // Format price with currency
+        function formatPrice(amount) {
+            return `${globalSettings.currency} ${amount.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
+        }
+
+        // Update all price displays on the page
+        function updateAllPriceDisplays() {
+            // Find all elements with data-price attribute and recalculate
+            document.querySelectorAll('[data-price]').forEach(element => {
+                const basePrice = parseFloat(element.getAttribute('data-price'));
+                const quantity = parseInt(element.getAttribute('data-quantity') || '1');
+                if (!isNaN(basePrice)) {
+                    const { total, serviceFeePercent } = calculateFinalPrice(basePrice, quantity);
+                    element.textContent = formatPrice(total);
+                    
+                    // Update service fee display if exists
+                    const feeElement = element.closest('.product-item')?.querySelector('.service-fee-display');
+                    if (feeElement) {
+                        feeElement.textContent = `${serviceFeePercent}%`;
+                    }
+                }
+            });
+            
+            // Update all elements with class 'service-fee-percent'
+            document.querySelectorAll('.service-fee-percent').forEach(element => {
+                element.textContent = globalSettings.serviceFeePercent;
+            });
+            
+            // Update currency displays
+            document.querySelectorAll('.currency-symbol').forEach(element => {
+                element.textContent = globalSettings.currency;
+            });
+        }
+
+        // Initialize WebSocket connection for real-time updates
+        function initSettingsWebSocket() {
+            const socket = io(API_BASE);
+            
+            socket.on('settingsUpdated', (newSettings) => {
+                console.log('Settings updated in real-time:', newSettings);
+                
+                // Update global settings
+                Object.assign(globalSettings, newSettings);
+                
+                // Save to localStorage
+                localStorage.setItem('agrihub_global_settings', JSON.stringify(globalSettings));
+                
+                // Notify all listeners
+                notifySettingsListeners();
+                
+                // Update all price displays on the page
+                updateAllPriceDisplays();
+                
+                // Show notification to user
+                showSettingsUpdateNotification(newSettings);
+            });
+            
+            return socket;
+        }
+
+        function showSettingsUpdateNotification(settings) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'settings-update-notification';
+            notification.innerHTML = `
+                <div style="background: #2b7a3e; color: white; padding: 12px 20px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                    <strong>⚙️ Platform Settings Updated</strong><br>
+                    <small>Service fee changed to ${settings.serviceFeePercent}% | Currency: ${settings.currency}</small>
+                </div>
+            `;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '10000';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Auto-initialize when script loads
+        if (typeof document !== 'undefined') {
+            document.addEventListener('DOMContentLoaded', async () => {
+                await loadGlobalSettings();
+                
+                // Add WebSocket if available
+                if (typeof io !== 'undefined') {
+                    initSettingsWebSocket();
+                }
+                
+                // Update all price displays initially
+                updateAllPriceDisplays();
+            });
+        }
+    </script>
+</body>
+</html>

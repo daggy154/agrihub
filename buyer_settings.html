@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - AgriHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .settings-section {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .settings-section h3 {
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 3px rgba(106, 168, 99, 0.1);
+        }
+        
+        .form-group input:disabled {
+            background: #f5f5f5;
+            color: #666;
+        }
+        
+        .btn-save {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .btn-save:hover {
+            background: var(--accent-green);
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .info-text {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .password-field {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .profile-pic {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-pic img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-green);
+        }
+        
+        .change-pic-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .notification-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .notification-option:last-child {
+            border-bottom: none;
+        }
+        
+        .notification-option label {
+            cursor: pointer;
+            font-weight: normal;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--accent-green);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e2a1e;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            width: 400px;
+            max-width: 90%;
+        }
+        
+        .modal-content h3 {
+            margin-bottom: 20px;
+            color: var(--primary-green);
+        }
+    </style>
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" style="fill:white; width:24px; height:24px; margin-right:8px;">
+                    <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                </svg>
+                AgriHub
+            </div>
+            <a href="buyer_dashboard.html" class="menu-item">🏠 Home</a>
+            <a href="buyer_products.html" class="menu-item">🛍️ Shop Products</a>
+            <a href="buyer_orders.html" class="menu-item">📦 My Orders</a>
+            <a href="buyer_settings.html" class="menu-item active">⚙️ Settings</a>
+            <a href="index.html" class="menu-item" style="margin-top: auto; border:none; color: #ffadad;">🚪 Logout</a>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="dashboard-content">
+            <div class="dash-header">
+                <h2>Account Settings</h2>
+                <div class="user-profile" style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-weight:700; color:var(--primary-green);" id="buyerName">Buyer</span>
+                    <div style="width:40px; height:40px; background:var(--card-tan); border-radius:50%;"></div>
+                </div>
+            </div>
+
+            <div class="settings-container">
+                <!-- Profile Settings -->
+                <div class="settings-section">
+                    <h3>👤 Profile Information</h3>
+                    <div class="profile-pic">
+                        <img id="profileImage" src="https://via.placeholder.com/80?text=User" alt="Profile Picture">
+                        <button class="change-pic-btn" onclick="changeProfilePicture()">Change Photo</button>
+                    </div>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="fullName" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="email" disabled>
+                        <div class="info-text">Email cannot be changed. Contact support for assistance.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="phone" placeholder="Enter your phone number">
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery Address</label>
+                        <textarea id="address" rows="3" placeholder="Enter your delivery address"></textarea>
+                    </div>
+                    <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+                </div>
+
+                <!-- Change Password -->
+                <div class="settings-section">
+                    <h3>🔒 Change Password</h3>
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <div class="password-field">
+                            <input type="password" id="currentPassword" placeholder="Enter current password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <div class="password-field">
+                            <input type="password" id="newPassword" placeholder="Enter new password">
+                        </div>
+                        <div class="info-text">Password must be at least 6 characters long</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <div class="password-field">
+                            <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                        </div>
+                    </div>
+                    <button class="btn-save" onclick="changePassword()">Update Password</button>
+                </div>
+
+                <!-- Notification Preferences -->
+                <div class="settings-section">
+                    <h3>🔔 Notification Preferences</h3>
+                    <div class="notification-option">
+                        <label>Email Notifications</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="emailNotifications" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="notification-option">
+                        <label>Order Updates</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="orderNotifications" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="notification-option">
+                        <label>Promotional Offers</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="promoNotifications">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="notification-option">
+                        <label>Newsletter</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="newsletterNotifications">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <button class="btn-save" onclick="saveNotificationPreferences()">Save Preferences</button>
+                </div>
+
+                <!-- Account Actions -->
+                <div class="settings-section">
+                    <h3>⚠️ Account Actions</h3>
+                    <div class="form-group">
+                        <button class="btn-save btn-danger" onclick="deleteAccount()">Delete Account</button>
+                        <div class="info-text" style="margin-top: 10px;">This action cannot be undone. All your data will be permanently removed.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Profile Picture Modal -->
+    <div id="profilePicModal" class="modal">
+        <div class="modal-content">
+            <h3>Change Profile Picture</h3>
+            <div class="form-group">
+                <label>Image URL</label>
+                <input type="text" id="profilePicUrl" placeholder="Enter image URL">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn-save" onclick="updateProfilePicture()">Update</button>
+                <button class="btn-save btn-danger" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        const API = "http://localhost:3000";
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Get current user from localStorage
+            currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                alert('Please login first');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            if (currentUser.role !== 'buyer') {
+                alert('This page is for buyers only');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            document.getElementById('buyerName').textContent = currentUser.fullname;
+            
+            // Load user settings from localStorage
+            loadUserSettings();
+        });
+        
+        function loadUserSettings() {
+            // Load saved settings from localStorage
+            const savedSettings = localStorage.getItem(`user_settings_${currentUser.id}`);
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                document.getElementById('fullName').value = settings.fullName || currentUser.fullname;
+                document.getElementById('email').value = currentUser.email;
+                document.getElementById('phone').value = settings.phone || '';
+                document.getElementById('address').value = settings.address || '';
+                document.getElementById('emailNotifications').checked = settings.emailNotifications !== false;
+                document.getElementById('orderNotifications').checked = settings.orderNotifications !== false;
+                document.getElementById('promoNotifications').checked = settings.promoNotifications || false;
+                document.getElementById('newsletterNotifications').checked = settings.newsletterNotifications || false;
+                
+                if (settings.profilePicture) {
+                    document.getElementById('profileImage').src = settings.profilePicture;
+                }
+            } else {
+                document.getElementById('fullName').value = currentUser.fullname;
+                document.getElementById('email').value = currentUser.email;
+            }
+        }
+        
+        function saveProfile() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+            
+            if (!fullName) {
+                showNotification('Please enter your full name', 'error');
+                return;
+            }
+            
+            // Update current user in localStorage
+            currentUser.fullname = fullName;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Save additional settings
+            const settings = {
+                fullName: fullName,
+                phone: phone,
+                address: address,
+                emailNotifications: document.getElementById('emailNotifications').checked,
+                orderNotifications: document.getElementById('orderNotifications').checked,
+                promoNotifications: document.getElementById('promoNotifications').checked,
+                newsletterNotifications: document.getElementById('newsletterNotifications').checked
+            };
+            
+            // Also save profile picture if exists
+            const currentPic = document.getElementById('profileImage').src;
+            if (currentPic && !currentPic.includes('placeholder')) {
+                settings.profilePicture = currentPic;
+            }
+            
+            localStorage.setItem(`user_settings_${currentUser.id}`, JSON.stringify(settings));
+            
+            showNotification('Profile updated successfully!', 'success');
+        }
+        
+        function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!currentPassword) {
+                showNotification('Please enter your current password', 'error');
+                return;
+            }
+            
+            if (!newPassword) {
+                showNotification('Please enter a new password', 'error');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showNotification('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('New passwords do not match', 'error');
+                return;
+            }
+            
+            // Here you would typically make an API call to change the password
+            // For demo purposes, we'll just show a success message
+            showNotification('Password changed successfully!', 'success');
+            
+            // Clear password fields
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+        
+        function saveNotificationPreferences() {
+            const settings = {
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                emailNotifications: document.getElementById('emailNotifications').checked,
+                orderNotifications: document.getElementById('orderNotifications').checked,
+                promoNotifications: document.getElementById('promoNotifications').checked,
+                newsletterNotifications: document.getElementById('newsletterNotifications').checked
+            };
+            
+            localStorage.setItem(`user_settings_${currentUser.id}`, JSON.stringify(settings));
+            showNotification('Notification preferences saved!', 'success');
+        }
+        
+        function changeProfilePicture() {
+            const modal = document.getElementById('profilePicModal');
+            modal.style.display = 'flex';
+        }
+        
+        function updateProfilePicture() {
+            const imageUrl = document.getElementById('profilePicUrl').value.trim();
+            
+            if (!imageUrl) {
+                showNotification('Please enter an image URL', 'error');
+                return;
+            }
+            
+            // Validate if it's a valid URL (basic check)
+            if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
+                showNotification('Please enter a valid image URL (starting with http:// or https://)', 'error');
+                return;
+            }
+            
+            // Update profile picture
+            document.getElementById('profileImage').src = imageUrl;
+            
+            // Save to settings
+            const settings = JSON.parse(localStorage.getItem(`user_settings_${currentUser.id}`) || '{}');
+            settings.profilePicture = imageUrl;
+            localStorage.setItem(`user_settings_${currentUser.id}`, JSON.stringify(settings));
+            
+            showNotification('Profile picture updated!', 'success');
+            closeModal();
+        }
+        
+        function deleteAccount() {
+            if (confirm('Are you absolutely sure you want to delete your account? This action cannot be undone and all your data will be permanently lost.')) {
+                if (confirm('Please confirm again: Type "DELETE" to proceed')) {
+                    const confirmation = prompt('Type "DELETE" to confirm account deletion:');
+                    if (confirmation === 'DELETE') {
+                        // Here you would make an API call to delete the account
+                        // For demo, we'll just clear localStorage and redirect
+                        localStorage.removeItem('currentUser');
+                        localStorage.removeItem(`user_settings_${currentUser.id}`);
+                        showNotification('Account deleted successfully', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 2000);
+                    } else {
+                        showNotification('Account deletion cancelled', 'info');
+                    }
+                }
+            }
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('profilePicModal');
+            modal.style.display = 'none';
+            document.getElementById('profilePicUrl').value = '';
+        }
+        
+        function showNotification(message, type) {
+            const existingToast = document.querySelector('.toast-notification');
+            if(existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.style.background = type === 'success' ? '#2e7d32' : type === 'error' ? '#c62828' : '#1976d2';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if(toast) toast.remove();
+            }, 3000);
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('profilePicModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // shared-settings.js - Include this in all dashboard HTML files
+
+        let globalSettings = {
+            siteTitle: "AgriHub",
+            contactEmail: "admin@agrihub.com",
+            phone: "+254700000000",
+            serviceFeePercent: 10,
+            currency: "KSH",
+            maintenanceMode: false
+        };
+
+        let settingsChangeListeners = [];
+
+        // Load settings from server
+        async function loadGlobalSettings() {
+            try {
+                const response = await fetch(`${API_BASE}/api/settings`);
+                if (!response.ok) throw new Error('Failed to fetch settings');
+                const settings = await response.json();
+                
+                // Update global settings
+                Object.assign(globalSettings, settings);
+                
+                // Notify all listeners
+                notifySettingsListeners();
+                
+                // Store in localStorage as cache
+                localStorage.setItem('agrihub_global_settings', JSON.stringify(globalSettings));
+                
+                return globalSettings;
+            } catch (error) {
+                console.error('Error loading settings:', error);
+                // Fallback to localStorage
+                const cached = localStorage.getItem('agrihub_global_settings');
+                if (cached) {
+                    Object.assign(globalSettings, JSON.parse(cached));
+                    notifySettingsListeners();
+                }
+                return globalSettings;
+            }
+        }
+
+        // Get current settings
+        function getCurrentSettings() {
+            return { ...globalSettings };
+        }
+
+        // Add listener for settings changes
+        function onSettingsChange(callback) {
+            settingsChangeListeners.push(callback);
+            // Immediately call with current settings
+            callback(globalSettings);
+        }
+
+        // Notify all listeners of settings change
+        function notifySettingsListeners() {
+            settingsChangeListeners.forEach(callback => {
+                try {
+                    callback(globalSettings);
+                } catch (e) {
+                    console.error('Error in settings listener:', e);
+                }
+            });
+        }
+
+        // Calculate final price with current service fee
+        function calculateFinalPrice(basePrice, quantity = 1) {
+            const fee = globalSettings.serviceFeePercent || 10;
+            const subtotal = basePrice * quantity;
+            const serviceFee = subtotal * (fee / 100);
+            return {
+                subtotal: subtotal,
+                serviceFee: serviceFee,
+                total: subtotal + serviceFee,
+                serviceFeePercent: fee
+            };
+        }
+
+        // Format price with currency
+        function formatPrice(amount) {
+            return `${globalSettings.currency} ${amount.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
+        }
+
+        // Update all price displays on the page
+        function updateAllPriceDisplays() {
+            // Find all elements with data-price attribute and recalculate
+            document.querySelectorAll('[data-price]').forEach(element => {
+                const basePrice = parseFloat(element.getAttribute('data-price'));
+                const quantity = parseInt(element.getAttribute('data-quantity') || '1');
+                if (!isNaN(basePrice)) {
+                    const { total, serviceFeePercent } = calculateFinalPrice(basePrice, quantity);
+                    element.textContent = formatPrice(total);
+                    
+                    // Update service fee display if exists
+                    const feeElement = element.closest('.product-item')?.querySelector('.service-fee-display');
+                    if (feeElement) {
+                        feeElement.textContent = `${serviceFeePercent}%`;
+                    }
+                }
+            });
+            
+            // Update all elements with class 'service-fee-percent'
+            document.querySelectorAll('.service-fee-percent').forEach(element => {
+                element.textContent = globalSettings.serviceFeePercent;
+            });
+            
+            // Update currency displays
+            document.querySelectorAll('.currency-symbol').forEach(element => {
+                element.textContent = globalSettings.currency;
+            });
+        }
+
+        // Initialize WebSocket connection for real-time updates
+        function initSettingsWebSocket() {
+            const socket = io(API_BASE);
+            
+            socket.on('settingsUpdated', (newSettings) => {
+                console.log('Settings updated in real-time:', newSettings);
+                
+                // Update global settings
+                Object.assign(globalSettings, newSettings);
+                
+                // Save to localStorage
+                localStorage.setItem('agrihub_global_settings', JSON.stringify(globalSettings));
+                
+                // Notify all listeners
+                notifySettingsListeners();
+                
+                // Update all price displays on the page
+                updateAllPriceDisplays();
+                
+                // Show notification to user
+                showSettingsUpdateNotification(newSettings);
+            });
+            
+            return socket;
+        }
+
+        function showSettingsUpdateNotification(settings) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'settings-update-notification';
+            notification.innerHTML = `
+                <div style="background: #2b7a3e; color: white; padding: 12px 20px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                    <strong>⚙️ Platform Settings Updated</strong><br>
+                    <small>Service fee changed to ${settings.serviceFeePercent}% | Currency: ${settings.currency}</small>
+                </div>
+            `;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '10000';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Auto-initialize when script loads
+        if (typeof document !== 'undefined') {
+            document.addEventListener('DOMContentLoaded', async () => {
+                await loadGlobalSettings();
+                
+                // Add WebSocket if available
+                if (typeof io !== 'undefined') {
+                    initSettingsWebSocket();
+                }
+                
+                // Update all price displays initially
+                updateAllPriceDisplays();
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Products - AgriHub</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .products-table {
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+        
+        .products-table table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+        
+        .products-table th {
+            background: var(--primary-green);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+        
+        .products-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+        
+        .products-table tr:hover {
+            background: #f9f9f9;
+        }
+        .products-table::-webkit-scrollbar{
+            height: 8px;
+        }
+        .products-table::-webkit-scrollbar-thumb{
+            background: var(--accent-green);
+            border-radius: 10px;
+        }
+        .product-thumb {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .edit-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .edit-btn:hover {
+            background: #45a049;
+        }
+        
+        .delete-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .delete-btn:hover {
+            background: #cc0000;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: slideDown 0.3s;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-green);
+        }
+        
+        .modal-header h3 {
+            color: var(--primary-green);
+            margin: 0;
+        }
+        
+        .close {
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+        
+        .close:hover {
+            color: #ff4444;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        
+        .modal-buttons button:active {
+            transform: scale(0.98);
+        }
+        
+        .save-btn {
+            background: var(--primary-green);
+            color: white;
+        }
+        
+        .save-btn:hover {
+            background: #2d5a2d;
+        }
+        
+        .cancel-btn {
+            background: #ccc;
+            color: #333;
+        }
+        
+        .cancel-btn:hover {
+            background: #bbb;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1001;
+            animation: slideIn 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .notification.success {
+            background: #4CAF50;
+        }
+        
+        .notification.error {
+            background: #ff4444;
+        }
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-green);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" style="fill:white; width:24px; height:24px; margin-right:8px;">
+                    <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                </svg>
+                AgriHub
+            </div>
+            <a href="farmer_dashboard.html" class="menu-item">Add Product</a>
+            <a href="#" class="menu-item active">My Products</a>
+            <a href="farmer_orders.html" class="menu-item">Orders Received</a>
+            <a href="farmer_advisory.html" class="menu-item">Expert Advice</a>
+            <a href="farmer_contacts.html" class="menu-item">Support & Contacts</a>
+            <a href="farmer_settings.html" class="menu-item">Settings</a>
+            <a href="index.html" class="menu-item" style="margin-top: auto; border:none; color: #ffadad;">Logout</a>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="dash-header">
+                <h2>My Products</h2>
+                <div class="user-profile">
+                    <span id="farmerNameDisplay" style="font-weight:700; color:var(--primary-green);"></span>
+                </div>
+            </div>
+            
+            <div class="products-table" id="productsTable">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Date Added</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsBody">
+                        <tr>
+                            <td colspan="7" class="loading-spinner">
+                                <div class="spinner"></div>
+                                <p style="margin-top: 10px;">Loading...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Product Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Product</h3>
+                <span class="close">&times;</span>
+            </div>
+            <form id="editProductForm">
+                <input type="hidden" id="editProductId">
+                <div class="form-group">
+                    <label for="editName">Product Name *</label>
+                    <input type="text" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCategory">Category *</label>
+                    <select id="editCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Grains">Grains</option>
+                        <option value="Dairy">Dairy</option>
+                        <option value="Poultry">Poultry</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editPrice">Price (Ksh) *</label>
+                    <input type="number" id="editPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="editQuantity">Quantity *</label>
+                    <input type="number" id="editQuantity" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="save-btn">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const API = "http://localhost:3000";
+        const userData = JSON.parse(localStorage.getItem('currentUser'));
+        
+        if(!userData || userData.role !== 'seller'){
+            alert('Please login as a farmer');
+            window.location.href = 'login.html';
+        }
+
+        document.getElementById('farmerNameDisplay').textContent = userData.fullname;
+
+        window.loadMyProducts = async function(){
+            try{
+                const response = await fetch(`${API}/api/products`);
+                if (!response.ok) throw new Error('Failed to fetch');
+
+                const allProducts = await response.json();
+                const myProducts = allProducts.filter(p => p.farmer_id == userData.id);
+
+                const tbody = document.getElementById('productsBody');
+
+                if (myProducts.length === 0){
+                    tbody.innerHTML = '<tr><td colspan="7" class="no-data">📦 You haven\'t added any products yet. <a href="farmer_dashboard.html" style="color: var(--primary-green);">Add your first product</a></td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = myProducts.map(product => `
+                    <tr>
+                        <td>
+                            <img class="product-thumb" 
+                                src="${product.image_url || 'https://via.placeholder.com/50'}" 
+                                onerror="this.src='https://via.placeholder.com/50'">
+                        </td>
+                        <td><strong>${escapeHtml(product.name)}</strong></td>
+                        <td>${escapeHtml(product.category)}</td>
+                        <td>Ksh.${parseFloat(product.price).toFixed(2)}</td>
+                        <td>${product.quantity}</td>
+                        <td>${new Date(product.created_at).toLocaleDateString()}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="edit-btn" onclick="openEditModal(${product.id})">✏️ Edit</button>
+                                <button class="delete-btn" onclick="deleteProduct(${product.id})">🗑️ Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error){
+                console.error('Error loading products:', error);
+                document.getElementById('productsBody').innerHTML = '<tr><td colspan="7" class="no-data">❌ Error connecting to server.</td></tr>';
+            }
+        };
+
+        window.deleteProduct = async function(productId){
+            if (!confirm('⚠️ Delete this product?')) return;
+
+            try{
+                const response = await fetch(`${API}/api/farmer-products/${productId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok){
+                    showNotification('✅ Product deleted!');
+                    loadMyProducts();
+                } else {
+                    showNotification('❌ Delete failed', 'error');
+                }
+
+            } catch (error) {
+                showNotification('❌ Server error', 'error');
+            }
+        };
+
+        window.openEditModal = async function(productId) {
+            try{
+                const response = await fetch(`${API}/api/product/${productId}`);
+                const product = await response.json();
+
+                document.getElementById('editProductId').value = product.id;
+                document.getElementById('editName').value = product.name;
+                document.getElementById('editCategory').value = product.category;
+                document.getElementById('editPrice').value = product.price;
+                document.getElementById('editQuantity').value = product.quantity;
+
+                document.getElementById('editModal').style.display = 'block';
+
+            } catch (error) {
+                showNotification('❌ Could not load product details', 'error');
+            }
+        };
+
+        window.closeModal = function(){
+            document.getElementById('editModal').style.display = 'none';
+        };
+
+        function showNotification(message, type = 'success'){
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => notification.remove(), 3000);
+        }
+        
+        function escapeHtml(text){
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.getElementById('editProductForm').addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const id = document.getElementById('editProductId').value;
+
+            const updateData = {
+                name: document.getElementById('editName').value,
+                category: document.getElementById('editCategory').value,
+                price: parseFloat(document.getElementById('editPrice').value),
+                quantity: parseInt(document.getElementById('editQuantity').value)
+            };
+
+            try{
+                const response = await fetch(`${API}/api/farmer-products/${id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(updateData)
+                });
+
+                if(response.ok){
+                    showNotification('✅ Updated successfully');
+                    closeModal();
+                    loadMyProducts();
+                } else {
+                    showNotification('❌ Update failed', 'error');
+                }
+
+            } catch (error) {
+                showNotification('❌ Server error', 'error');
+            }
+        });
+
+        loadMyProducts();
+    </script>
+    <script src="shared_settings.js"></script>
+</body>
+</html>
