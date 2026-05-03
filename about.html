@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriHub - About Us | Connecting Farmers & Buyers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #FDF9F0;
+            color: #2C2A29;
+            line-height: 1.5;
+        }
+
+        /* Navigation Styles - consistent with index */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 3rem;
+        }
+
+        header {
+            margin-bottom: 3rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            color: #2C5F2D;
+            letter-spacing: -0.02em;
+        }
+
+        .logo svg {
+            width: 36px;
+            height: 36px;
+            fill: #2C5F2D;
+            stroke: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #4A4A48;
+            transition: color 0.2s;
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #2C5F2D;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-login, .btn-register {
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-login {
+            color: #2C5F2D;
+            background: transparent;
+            border: 1px solid #C2D84C;
+        }
+
+        .btn-login:hover {
+            background: #C2D84C20;
+        }
+
+        .btn-register {
+            background: #2C5F2D;
+            color: white;
+            border: 1px solid #2C5F2D;
+        }
+
+        .btn-register:hover {
+            background: #1F4520;
+            transform: translateY(-1px);
+        }
+
+        /* About Hero Section */
+        .about-hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 2rem 0 4rem 0;
+        }
+
+        .about-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: #2C5F2D;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .about-hero .subhead {
+            font-size: 1.2rem;
+            max-width: 700px;
+            color: #545452;
+            margin-bottom: 2rem;
+        }
+
+        .hero-badge {
+            background: #C2D84C20;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2C5F2D;
+            display: inline-block;
+            backdrop-filter: blur(2px);
+        }
+
+        /* story + mission grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 3rem 0 5rem 0;
+        }
+
+        .story-card, .mission-card {
+            background: white;
+            border-radius: 32px;
+            padding: 2rem 2rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.03), 0 5px 12px rgba(0,0,0,0.05);
+            transition: transform 0.25s ease;
+        }
+
+        .story-card:hover, .mission-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .story-card h2, .mission-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .story-card p, .mission-card p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #3b3b3a;
+            margin-bottom: 1rem;
+        }
+
+        .icon-accent {
+            background: #C2D84C;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* stats section */
+        .stats-section {
+            background: #2C5F2D;
+            border-radius: 48px;
+            padding: 3rem 2rem;
+            margin: 4rem 0;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .stat-number {
+            font-size: 2.6rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.85;
+            letter-spacing: 0.3px;
+        }
+
+        /* values / team section */
+        .values-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin: 3rem 0 2rem 0;
+            color: #2C5F2D;
+        }
+
+        .values-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+
+        .value-card {
+            background: white;
+            border-radius: 28px;
+            padding: 2rem 1.5rem;
+            flex: 1;
+            min-width: 220px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+            transition: all 0.2s;
+            border: 1px solid #f0ebe2;
+        }
+
+        .value-card:hover {
+            border-color: #C2D84C;
+        }
+
+        .value-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .value-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.7rem;
+            font-weight: 600;
+        }
+
+        .value-card p {
+            font-size: 0.95rem;
+            color: #5E5E5C;
+        }
+
+        /* call to action banner */
+        .cta-banner {
+            background: linear-gradient(135deg, #F5E7D3 0%, #FFF2E3 100%);
+            border-radius: 48px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            margin: 2rem 0 3rem 0;
+        }
+
+        .cta-banner h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+            color: #2C2A29;
+        }
+
+        .cta-banner p {
+            max-width: 550px;
+            margin: 0 auto 1.8rem auto;
+            color: #4a4a46;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: #2C5F2D;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #1F4520;
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            border: 1.5px solid #2C5F2D;
+            color: #2C5F2D;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .btn-outline-light:hover {
+            background: #C2D84C20;
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding: 2rem 0 1rem;
+            border-top: 1px solid #e2dbcf;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #6C6C68;
+        }
+
+        @media (max-width: 800px) {
+            .main-container {
+                padding: 1rem 1.5rem;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .about-hero h1 {
+                font-size: 2.5rem;
+            }
+            .stats-section {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <header>
+        <nav>
+            <div class="logo">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                </svg>
+                AgriHub
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="product.html">Product</a>
+                <a href="#" class="active">About</a>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-register">Register</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- About hero section -->
+    <div class="about-hero">
+        <span class="hero-badge">🌱 Our story · Since 2024</span>
+        <h1>Rooted in Trust,<br>Growing Together</h1>
+        <p class="subhead">AgriHub was born from a simple belief: farmers and buyers deserve a direct, transparent, and fair marketplace — no middlemen, no barriers, just honest connections.</p>
+    </div>
+
+    <!-- story & mission double card -->
+    <div class="info-grid">
+        <div class="story-card">
+            <h2><span class="icon-accent" style="background: #C2D84C; display: inline-flex; align-items: center; justify-content: center;">🌾</span> Our Journey</h2>
+            <p>What started as a small cooperative project between 12 farmers in the outskirts of Nakuru has grown into a thriving digital ecosystem. We realized that local harvests, from fresh tomatoes to quality livestock, were losing value due to fragmented supply chains. AgriHub was built to change that — offering a digital space where a farmer in a remote village can directly list produce and a buyer from the city can source with confidence.</p>
+            <p>Today, AgriHub connects over 200+ verified farmers, hundreds of local buyers, and champions sustainable agriculture across Kenya. Our platform is designed to be simple, mobile-friendly, and deeply rooted in local realities.</p>
+        </div>
+        <div class="mission-card">
+            <h2><span class="icon-accent" style="background: #2C5F2D; color:white; display: inline-flex; align-items: center; justify-content: center;">🎯</span> Our Mission</h2>
+            <p>We empower smallholder farmers by eliminating exploitative intermediaries. Our technology gives them price visibility, direct negotiation power, and a trusted reputation system. For buyers — from restaurants to households — we ensure access to fresh, affordable produce with full traceability.</p>
+            <p>Beyond the marketplace, AgriHub invests in agricultural training, digital literacy, and last-mile logistics. Because when farmers prosper, communities flourish.</p>
+            <p style="margin-top: 1rem;"><strong>✨ Fair prices · Zero waste · Stronger rural economies</strong></p>
+        </div>
+    </div>
+
+    <!-- Impressive stats -->
+    <div class="stats-section">
+        <div class="stat-item">
+            <div class="stat-number">200+</div>
+            <div class="stat-label">Active Farmers</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Verified Buyers</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">2000+</div>
+            <div class="stat-label">Successful Trades</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">94%</div>
+            <div class="stat-label">Satisfaction Rate</div>
+        </div>
+    </div>
+
+    <!-- Core values -->
+    <div class="values-title">What drives us 🌻</div>
+    <div class="values-grid">
+        <div class="value-card">
+            <div class="value-icon">🤝</div>
+            <h3>Transparency</h3>
+            <p>Prices, seller ratings, and product origins are always visible. No hidden costs or unfair practices.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon">🌍</div>
+            <h3>Sustainability</h3>
+            <p>We promote regenerative farming and reduce food waste through direct-to-buyer channels.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon">📱</div>
+            <h3>Accessibility</h3>
+            <p>Our platform works on low-bandwidth networks and uses simple interfaces for all literacy levels.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon">🚜</div>
+            <h3>Empowerment</h3>
+            <p>Training programs, market insights, and financial tools help farmers scale sustainably.</p>
+        </div>
+    </div>
+
+    <!-- meet the team teaser? optional but adds heart -->
+    <div style="margin: 2rem 0 0.5rem; text-align: center;">
+        <span style="background: #EFE5D8; padding: 0.3rem 1rem; border-radius: 60px; font-size: 0.8rem;">👥 The people behind AgriHub</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; margin: 2rem 0 2rem;">
+        <div style="background: white; border-radius: 60px; padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 1.8rem;">👩🏿‍🌾</span> <strong>Justus W. Sunguti.</strong> <span style="color:#5C5C58;">Co-founder & Farmer Liaison</span>
+        </div>
+        <div style="background: white; border-radius: 60px; padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 1.8rem;">🧑🏽‍💻</span> <strong>Isaiah M. Wambani.</strong> <span style="color:#5C5C58;">Tech & Operations</span>
+        </div>
+        <div style="background: white; border-radius: 60px; padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 1.8rem;">🌿</span> <strong>Dr. Purity Atieno.</strong> <span style="color:#5C5C58;">Agroecology Advisor</span>
+        </div>
+    </div>
+
+    <!-- connect and join CTA -->
+    <div class="cta-banner">
+        <h3>Join the AgriHub community</h3>
+        <p>Whether you grow it, sell it, or buy it — there's a place for you here. Let's build a fair food future together.</p>
+        <div class="cta-buttons">
+            <a href="register.html" class="btn-primary">Become a member →</a>
+            <a href="product.html" class="btn-outline-light">Explore marketplace</a>
+        </div>
+    </div>
+
+    <footer>
+        <div>© 2025 AgriHub — Rooted in fairness, growing with care.</div>
+        <div style="display: flex; gap: 1.5rem;">
+            <span>🌱 Sustainability pledge</span>
+            <span>📞 +254 704 282 757</span>
+            <span>📍 Nakuru · Kenya</span>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

@@ -10,6 +10,96 @@
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="index.css">
     <style>
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            min-height: 80vh;
+            margin: 2rem auto;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(145deg, #1a3f2a 0%, #0e2a1c 100%);
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .sidebar .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            font-weight: 600;
+            margin-bottom: 48px;
+            border-left: 3px solid #d4af37;
+            padding-left: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+
+        .menu-item {
+            display: block;
+            padding: 12px 16px;
+            margin: 6px 0;
+            border-radius: 16px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .menu-item:hover {
+            background: rgba(255,255,255,0.12);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .menu-item.active {
+            background: #d4af37;
+            color: #1e3a2b;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-content {
+            flex: 1;
+            padding: 32px 40px;
+            background-color: #FAFAFA;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .dash-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-green);
+            font-size: 2rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .orders-container {
             background: white;
             border-radius: 16px;
@@ -190,6 +280,184 @@
             color: #666;
         }
         
+        /* Footer Styles */
+        .agrihub-footer {
+            margin-top: 50px;
+            background: linear-gradient(135deg, #1a3a2b 0%, #0e2a1e 100%);
+            border-radius: 24px 24px 0 0;
+            color: #e0e6dd;
+            font-family: 'DM Sans', sans-serif;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+        }
+
+        .footer-main {
+            padding: 40px 35px 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 35px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .footer-brand .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .footer-brand p {
+            line-height: 1.5;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            color: #cbdccf;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            background: #d4af37;
+            transform: translateY(-3px);
+        }
+
+        .footer-col h4 {
+            color: #f5f9f0;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 35px;
+            height: 2px;
+            background: #d4af37;
+            border-radius: 2px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #cbdccf;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: #b9f5b0;
+            transform: translateX(3px);
+        }
+
+        .contact-info p {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #cbdccf;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 40px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #bdd4c4;
+        }
+
+        .newsletter-form button {
+            background: #d4af37;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: #1e3a2b;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .newsletter-form button:hover {
+            background: #e6c85c;
+            transform: scale(0.98);
+        }
+
+        .footer-bottom {
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: #b1c9bb;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .footer-bottom-links a {
+            color: #b1c9bb;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-bottom-links a:hover {
+            color: white;
+        }
+
         @keyframes slideIn {
             from {
                 transform: translateX(100%);
@@ -214,6 +482,41 @@
             z-index: 2000;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             animation: slideIn 0.3s ease;
+        }
+        
+        .settings-update-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+                margin: 0;
+                border-radius: 0;
+            }
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+            .dashboard-content {
+                padding: 20px;
+            }
+            .footer-main {
+                padding: 30px 20px;
+                gap: 30px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px 20px;
+            }
+            .footer-bottom-links {
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -255,12 +558,71 @@
             <div id="ordersContainer" class="orders-container">
                 <div class="loading">Loading your orders...</div>
             </div>
+
+            <!-- ✨ FOOTER ADDED ✨ -->
+            <footer class="agrihub-footer">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <svg viewBox="0 0 24 24" style="fill:#a8e6a0; width:28px; height:28px;">
+                                <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                            </svg>
+                            AgriHub
+                        </div>
+                        <p>Empowering farmers with smart tools, market access, and expert insights — cultivating a sustainable future.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook">📘</a>
+                            <a href="#" aria-label="Twitter">🐦</a>
+                            <a href="#" aria-label="Instagram">📸</a>
+                            <a href="#" aria-label="LinkedIn">🔗</a>
+                        </div>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="buyer_dashboard.html">🏠 Home</a></li>
+                            <li><a href="buyer_products.html">🛍️ Shop Products</a></li>
+                            <li><a href="buyer_orders.html">📦 My Orders</a></li>
+                            <li><a href="buyer_settings.html">⚙️ Settings</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Resources</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">📘 Buyer Guidebook</a></li>
+                            <li><a href="#">📊 Price Alerts</a></li>
+                            <li><a href="#">🌦️ Weather Forecast</a></li>
+                            <li><a href="#">❓ FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Contact & Support</h4>
+                        <div class="contact-info">
+                            <p>📧 <span>admin@agrihub.com</span></p>
+                            <p>📞 <span>+254 113 820053</span></p>
+                            <p>📍 <span>Nakuru, Kenya</span></p>
+                        </div>
+                        <div class="newsletter-form">
+                            <input type="email" placeholder="Your email for updates" id="footerNewsletterEmail">
+                            <button id="footerSubscribeBtn">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div>© 2025 AgriHub — Cultivating connections, bridging growth. All rights reserved.</div>
+                    <div class="footer-bottom-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Settings</a>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script>
-        const API = "http://localhost:3000";
+        const API_BASE = "http://localhost:3000";
         let allOrders = [];
         let currentUser = null;
 
@@ -294,19 +656,29 @@
                     filterOrders(status);
                 });
             });
+
+            // Footer newsletter subscription
+            const subscribeBtn = document.getElementById('footerSubscribeBtn');
+            if (subscribeBtn) {
+                subscribeBtn.addEventListener('click', function() {
+                    const emailInput = document.getElementById('footerNewsletterEmail');
+                    const email = emailInput.value.trim();
+                    if (email && email.includes('@')) {
+                        showNotification(`✨ Thanks for subscribing! Updates will be sent to ${email}.`, 'success');
+                        emailInput.value = '';
+                    } else {
+                        showNotification('Please enter a valid email address to receive AgriHub updates.', 'error');
+                    }
+                });
+            }
         });
         
         async function loadOrders() {
             try {
-                // Fetch transactions for the current buyer
-                const response = await fetch(`${API}/api/transactions`);
+                const response = await fetch(`${API_BASE}/api/transactions`);
                 const allTransactions = await response.json();
                 
-                // Filter transactions for the current buyer
-                // Note: Adjust the field name based on your backend response
                 allOrders = allTransactions.filter(tx => {
-                    // Check if transaction belongs to current user
-                    // Your backend might use buyer_id, user_id, or buyerId
                     const buyerId = tx.buyer_id || tx.user_id || tx.buyerId;
                     return buyerId == currentUser.id;
                 }).map(tx => ({
@@ -322,7 +694,6 @@
                     farmer_name: tx.farmer_name || 'Unknown Farmer'
                 }));
                 
-                // Sort orders by date (newest first)
                 allOrders.sort((a, b) => {
                     if (!a.created_at) return 1;
                     if (!b.created_at) return -1;
@@ -339,11 +710,9 @@
         
         function formatDate(dateString) {
             if (!dateString) return 'Date not available';
-            
             try {
                 const date = new Date(dateString);
                 if (isNaN(date.getTime())) return 'Invalid date';
-                
                 return date.toLocaleString('en-US', {
                     year: 'numeric',
                     month: 'short',
@@ -359,32 +728,29 @@
         
         function getStatusBadgeClass(status) {
             switch(status?.toLowerCase()) {
-                case 'completed':
-                    return 'status-completed';
-                case 'pending':
-                    return 'status-pending';
-                case 'processing':
-                    return 'status-processing';
-                case 'cancelled':
-                    return 'status-cancelled';
-                default:
-                    return 'status-pending';
+                case 'completed': return 'status-completed';
+                case 'pending': return 'status-pending';
+                case 'processing': return 'status-processing';
+                case 'cancelled': return 'status-cancelled';
+                default: return 'status-pending';
             }
         }
         
         function getStatusText(status) {
             switch(status?.toLowerCase()) {
-                case 'completed':
-                    return '✓ Completed';
-                case 'pending':
-                    return '⏳ Pending';
-                case 'processing':
-                    return '🔄 Processing';
-                case 'cancelled':
-                    return '✗ Cancelled';
-                default:
-                    return status || 'Pending';
+                case 'completed': return '✓ Completed';
+                case 'pending': return '⏳ Pending';
+                case 'processing': return '🔄 Processing';
+                case 'cancelled': return '✗ Cancelled';
+                default: return status || 'Pending';
             }
+        }
+        
+        function getUnit(productName) {
+            const name = (productName || '').toLowerCase();
+            if (name.includes('milk') || name.includes('cheese') || name.includes('yogurt')) return 'liters';
+            else if (name.includes('egg')) return 'trays';
+            else return 'kg';
         }
         
         function displayOrders(orders) {
@@ -398,7 +764,7 @@
                         </svg>
                         <h3>No Orders Yet</h3>
                         <p style="margin-top: 10px;">Start shopping to see your orders here!</p>
-                        <a href="buyer_dashboard.html" style="display: inline-block; margin-top: 20px; padding: 10px 30px; background: var(--primary-green); color: white; text-decoration: none; border-radius: 8px;">Browse Products</a>
+                        <a href="buyer_products.html" style="display: inline-block; margin-top: 20px; padding: 10px 30px; background: var(--primary-green); color: white; text-decoration: none; border-radius: 8px;">Browse Products</a>
                     </div>
                 `;
                 return;
@@ -439,18 +805,6 @@
             `).join('');
         }
         
-        function getUnit(productName) {
-            // Simple logic to determine unit based on product name
-            const name = productName.toLowerCase();
-            if (name.includes('milk') || name.includes('cheese') || name.includes('yogurt')) {
-                return 'liters';
-            } else if (name.includes('egg')) {
-                return 'trays';
-            } else {
-                return 'kg';
-            }
-        }
-        
         function filterOrders(status) {
             if (status === 'all') {
                 displayOrders(allOrders);
@@ -460,15 +814,14 @@
             }
         }
         
-        function trackOrder(orderId) {
-            // Find the order
+        window.trackOrder = function(orderId) {
             const order = allOrders.find(o => o.id == orderId);
             if (order) {
-                showNotification(`Order #${orderId} is being processed. You will receive updates soon.`, 'info');
+                showNotification(`📦 Order #${orderId} is ${order.status}. You will receive updates as it progresses.`, 'info');
             } else {
                 showNotification('Order not found', 'error');
             }
-        }
+        };
         
         function showNotification(message, type) {
             const existingToast = document.querySelector('.toast-notification');
@@ -490,184 +843,6 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
-        }
-
-        // shared-settings.js - Include this in all dashboard HTML files
-
-        let globalSettings = {
-            siteTitle: "AgriHub",
-            contactEmail: "admin@agrihub.com",
-            phone: "+254700000000",
-            serviceFeePercent: 10,
-            currency: "KSH",
-            maintenanceMode: false
-        };
-
-        let settingsChangeListeners = [];
-
-        // Load settings from server
-        async function loadGlobalSettings() {
-            try {
-                const response = await fetch(`${API_BASE}/api/settings`);
-                if (!response.ok) throw new Error('Failed to fetch settings');
-                const settings = await response.json();
-                
-                // Update global settings
-                Object.assign(globalSettings, settings);
-                
-                // Notify all listeners
-                notifySettingsListeners();
-                
-                // Store in localStorage as cache
-                localStorage.setItem('agrihub_global_settings', JSON.stringify(globalSettings));
-                
-                return globalSettings;
-            } catch (error) {
-                console.error('Error loading settings:', error);
-                // Fallback to localStorage
-                const cached = localStorage.getItem('agrihub_global_settings');
-                if (cached) {
-                    Object.assign(globalSettings, JSON.parse(cached));
-                    notifySettingsListeners();
-                }
-                return globalSettings;
-            }
-        }
-
-        // Get current settings
-        function getCurrentSettings() {
-            return { ...globalSettings };
-        }
-
-        // Add listener for settings changes
-        function onSettingsChange(callback) {
-            settingsChangeListeners.push(callback);
-            // Immediately call with current settings
-            callback(globalSettings);
-        }
-
-        // Notify all listeners of settings change
-        function notifySettingsListeners() {
-            settingsChangeListeners.forEach(callback => {
-                try {
-                    callback(globalSettings);
-                } catch (e) {
-                    console.error('Error in settings listener:', e);
-                }
-            });
-        }
-
-        // Calculate final price with current service fee
-        function calculateFinalPrice(basePrice, quantity = 1) {
-            const fee = globalSettings.serviceFeePercent || 10;
-            const subtotal = basePrice * quantity;
-            const serviceFee = subtotal * (fee / 100);
-            return {
-                subtotal: subtotal,
-                serviceFee: serviceFee,
-                total: subtotal + serviceFee,
-                serviceFeePercent: fee
-            };
-        }
-
-        // Format price with currency
-        function formatPrice(amount) {
-            return `${globalSettings.currency} ${amount.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            })}`;
-        }
-
-        // Update all price displays on the page
-        function updateAllPriceDisplays() {
-            // Find all elements with data-price attribute and recalculate
-            document.querySelectorAll('[data-price]').forEach(element => {
-                const basePrice = parseFloat(element.getAttribute('data-price'));
-                const quantity = parseInt(element.getAttribute('data-quantity') || '1');
-                if (!isNaN(basePrice)) {
-                    const { total, serviceFeePercent } = calculateFinalPrice(basePrice, quantity);
-                    element.textContent = formatPrice(total);
-                    
-                    // Update service fee display if exists
-                    const feeElement = element.closest('.product-item')?.querySelector('.service-fee-display');
-                    if (feeElement) {
-                        feeElement.textContent = `${serviceFeePercent}%`;
-                    }
-                }
-            });
-            
-            // Update all elements with class 'service-fee-percent'
-            document.querySelectorAll('.service-fee-percent').forEach(element => {
-                element.textContent = globalSettings.serviceFeePercent;
-            });
-            
-            // Update currency displays
-            document.querySelectorAll('.currency-symbol').forEach(element => {
-                element.textContent = globalSettings.currency;
-            });
-        }
-
-        // Initialize WebSocket connection for real-time updates
-        function initSettingsWebSocket() {
-            const socket = io(API_BASE);
-            
-            socket.on('settingsUpdated', (newSettings) => {
-                console.log('Settings updated in real-time:', newSettings);
-                
-                // Update global settings
-                Object.assign(globalSettings, newSettings);
-                
-                // Save to localStorage
-                localStorage.setItem('agrihub_global_settings', JSON.stringify(globalSettings));
-                
-                // Notify all listeners
-                notifySettingsListeners();
-                
-                // Update all price displays on the page
-                updateAllPriceDisplays();
-                
-                // Show notification to user
-                showSettingsUpdateNotification(newSettings);
-            });
-            
-            return socket;
-        }
-
-        function showSettingsUpdateNotification(settings) {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = 'settings-update-notification';
-            notification.innerHTML = `
-                <div style="background: #2b7a3e; color: white; padding: 12px 20px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-                    <strong>⚙️ Platform Settings Updated</strong><br>
-                    <small>Service fee changed to ${settings.serviceFeePercent}% | Currency: ${settings.currency}</small>
-                </div>
-            `;
-            notification.style.position = 'fixed';
-            notification.style.bottom = '20px';
-            notification.style.right = '20px';
-            notification.style.zIndex = '10000';
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 5000);
-        }
-
-        // Auto-initialize when script loads
-        if (typeof document !== 'undefined') {
-            document.addEventListener('DOMContentLoaded', async () => {
-                await loadGlobalSettings();
-                
-                // Add WebSocket if available
-                if (typeof io !== 'undefined') {
-                    initSettingsWebSocket();
-                }
-                
-                // Update all price displays initially
-                updateAllPriceDisplays();
-            });
         }
     </script>
 </body>
