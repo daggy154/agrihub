@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriHub - Browse Products | Fresh Farm Direct</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #FDF9F0;
+            color: #2C2A29;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 3rem;
+        }
+
+        /* Navigation Styles - Consistent with index */
+        header {
+            margin-bottom: 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            color: #2C5F2D;
+            letter-spacing: -0.02em;
+        }
+
+        .logo svg {
+            width: 36px;
+            height: 36px;
+            fill: #2C5F2D;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #4A4A48;
+            transition: color 0.2s;
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #2C5F2D;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-login, .btn-register {
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-login {
+            color: #2C5F2D;
+            background: transparent;
+            border: 1px solid #C2D84C;
+        }
+
+        .btn-login:hover {
+            background: #C2D84C20;
+        }
+
+        .btn-register {
+            background: #2C5F2D;
+            color: white;
+            border: 1px solid #2C5F2D;
+        }
+
+        .btn-register:hover {
+            background: #1F4520;
+            transform: translateY(-1px);
+        }
+
+        /* Hero Banner */
+        .catalog-hero {
+            background: linear-gradient(135deg, #2C5F2D 0%, #1A3A1A 100%);
+            border-radius: 32px;
+            padding: 3rem 2rem;
+            margin: 2rem 0 3rem 0;
+            text-align: center;
+            color: white;
+        }
+
+        .catalog-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .catalog-hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .catalog-hero .register-prompt {
+            margin-top: 1.5rem;
+            background: rgba(255,255,255,0.15);
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+        }
+
+        .catalog-hero .register-prompt a {
+            color: #FFD966;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* Filter Bar */
+        .category-filter {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 8px 24px;
+            border: 2px solid #2C5F2D;
+            background: white;
+            color: #2C5F2D;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #2C5F2D;
+            color: white;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 28px;
+            padding: 10px 0 40px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #e9e5db;
+        }
+
+        .product-info {
+            padding: 18px;
+            flex: 1;
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2C5F2D;
+            margin-bottom: 6px;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #D4AF37;
+            margin: 8px 0;
+        }
+
+        .product-price small {
+            font-size: 0.75rem;
+            color: #888;
+            font-weight: normal;
+        }
+
+        .product-description {
+            color: #5a5a57;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            min-height: 55px;
+        }
+
+        .product-meta {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0e9df;
+        }
+
+        .farmer-name {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stock-info {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 8px 0;
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            background: #e8f5e9;
+            color: #2C5F2D;
+        }
+
+        .stock-info.out-of-stock {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .btn-view-only {
+            width: 100%;
+            background: #f5f0e8;
+            color: #2C5F2D;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-view-only:hover {
+            background: #e8e0d5;
+        }
+
+        .register-badge {
+            background: #FFD96620;
+            border: 1px solid #FFD966;
+            border-radius: 12px;
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            color: #B8860B;
+            text-align: center;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        /* Modal for registration prompt */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-container {
+            background: white;
+            max-width: 450px;
+            width: 90%;
+            border-radius: 32px;
+            padding: 2rem;
+            text-align: center;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-container h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #2C5F2D;
+            margin-bottom: 0.8rem;
+        }
+
+        .modal-container p {
+            color: #555;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .modal-btn-register {
+            background: #2C5F2D;
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .modal-btn-cancel {
+            background: transparent;
+            border: 1px solid #ccc;
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .modal-btn-cancel:hover {
+            background: #f5f5f5;
+        }
+
+        /* Loading state */
+        .loading-spinner {
+            text-align: center;
+            padding: 60px;
+            font-size: 1.1rem;
+            color: #2C5F2D;
+        }
+
+        .loading-spinner::before {
+            content: "🌱";
+            display: inline-block;
+            animation: bounce 1s infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Toast notification */
+        .toast-msg {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #2e7d32;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 2100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Footer */
+        .agrihub-footer {
+            margin-top: 3rem;
+            background: #1A3A1A;
+            border-radius: 28px 28px 0 0;
+            color: #e0e6dd;
+            padding: 2rem 2rem 1rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-brand {
+            max-width: 250px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .footer-links a {
+            color: #bdd4c4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+            text-align: center;
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            .catalog-hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <header>
+        <nav>
+            <div class="logo">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                </svg>
+                AgriHub
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#" class="active">Products</a>
+                <a href="about.html">About</a>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-register">Register</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero + Public notice -->
+    <div class="catalog-hero">
+        <h1>🌾 Fresh from the Farm 🥬</h1>
+        <p>Explore our marketplace — direct from local farmers, no middlemen.</p>
+        <div class="register-prompt">
+            💡 Want to buy? <a href="register.html">Create a free buyer account</a> to place orders & support local growers.
+        </div>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="category-filter">
+        <button class="filter-btn active" data-category="all">🍅 All Products</button>
+        <button class="filter-btn" data-category="Vegetables">🥬 Vegetables</button>
+        <button class="filter-btn" data-category="Fruits">🍎 Fruits</button>
+        <button class="filter-btn" data-category="Grains">🌾 Grains</button>
+        <button class="filter-btn" data-category="Dairy">🥛 Dairy</button>
+        <button class="filter-btn" data-category="Livestock">🐄 Livestock</button>
+    </div>
+
+    <!-- Products Grid -->
+    <div id="productsContainer" class="products-grid">
+        <div class="loading-spinner">Loading fresh harvest...</div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="agrihub-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <svg viewBox="0 0 24 24" style="width:24px; fill:#C2D84C;">
+                        <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                    </svg>
+                    AgriHub
+                </div>
+                <p style="font-size:0.8rem;">Connecting communities through sustainable agriculture.</p>
+            </div>
+            <div>
+                <h4 style="margin-bottom:12px;">Explore</h4>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="#">Products</a>
+                    <a href="about.html">About Us</a>
+                </div>
+            </div>
+            <div>
+                <h4 style="margin-bottom:12px;">Join Us</h4>
+                <div class="footer-links">
+                    <a href="register.html">Become a Buyer</a>
+                    <a href="register_farmer.html">Sell as Farmer</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 AgriHub — Fresh. Fair. Farm-to-table.
+        </div>
+    </footer>
+</div>
+
+<!-- Registration Prompt Modal -->
+<div id="registerModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-icon">🔒🌱</div>
+        <h3>Join AgriHub to Buy</h3>
+        <p>You're viewing product prices and availability. To complete a purchase, please create a free buyer account — it takes just a minute.</p>
+        <div class="modal-buttons">
+            <a href="register.html" class="modal-btn-register">Register Now</a>
+            <button class="modal-btn-cancel" id="closeModalBtn">Browse More</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // API Endpoint (adjust if your backend runs on a different port)
+    const API_BASE = "http://localhost:3000";
+    let allProducts = [];
+    let currentFilter = 'all';
+
+    // DOM Elements
+    const productsContainer = document.getElementById('productsContainer');
+    const modal = document.getElementById('registerModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    // --- Helper Functions ---
+    function showToast(message, isError = false) {
+        const existingToast = document.querySelector('.toast-msg');
+        if (existingToast) existingToast.remove();
+        
+        const toast = document.createElement('div');
+        toast.className = 'toast-msg';
+        toast.style.backgroundColor = isError ? '#c62828' : '#2C5F2D';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            if (toast) toast.remove();
+        }, 3000);
+    }
+
+    function openRegisterModal(productName = null) {
+        const modalTitle = modal.querySelector('h3');
+        const modalText = modal.querySelector('p');
+        if (productName) {
+            modalText.innerHTML = `You tried to inquire about <strong>${escapeHtml(productName)}</strong>. To complete purchases or contact farmers, please create a free AgriHub buyer account.`;
+        } else {
+            modalText.innerHTML = `You're viewing product prices and availability. To complete a purchase, please create a free buyer account — it takes just a minute.`;
+        }
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+    }
+
+    // Escape HTML to avoid injection
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // Helper to get unit based on category/product name
+    function getUnit(category, productName) {
+        const name = (productName || '').toLowerCase();
+        if (category === 'Dairy' || name.includes('milk') || name.includes('cheese') || name.includes('yogurt')) {
+            return 'liters';
+        } else if (name.includes('egg')) {
+            return 'trays (30pcs)';
+        } else if (category === 'Livestock' || name.includes('cow') || name.includes('goat') || name.includes('chicken')) {
+            return 'unit';
+        } else {
+            return 'kg';
+        }
+    }
+
+    // Format price (assuming KSH, but can be dynamic)
+    function formatPrice(amount) {
+        return `KSH ${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    // Render products (purely display, no purchase action)
+    function displayProducts(products) {
+        if (!products || products.length === 0) {
+            productsContainer.innerHTML = '<div style="text-align:center; padding:50px; background:white; border-radius:28px;">🌿 No products in this category at the moment. Check back soon!</div>';
+            return;
+        }
+
+        productsContainer.innerHTML = products.map(product => {
+            const isOutOfStock = (product.quantity || 0) <= 0;
+            const unit = getUnit(product.category, product.name);
+            const stockText = isOutOfStock ? 'Out of Stock' : `${product.quantity} ${unit} available`;
+            const stockClass = isOutOfStock ? 'out-of-stock' : '';
+            
+            // image fallback
+            const imageUrl = product.image_url && product.image_url.trim() !== '' 
+                ? product.image_url 
+                : 'https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80';
+            
+            return `
+                <div class="product-card" data-id="${product.id}">
+                    <img class="product-image" 
+                         src="${imageUrl}" 
+                         alt="${escapeHtml(product.name)}"
+                         onerror="this.src='https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'">
+                    <div class="product-info">
+                        <div class="product-name">${escapeHtml(product.name)}</div>
+                        <div class="product-price">
+                            ${formatPrice(product.price)} 
+                            <small>per ${unit}</small>
+                        </div>
+                        <div class="product-description">${escapeHtml(product.description) || 'Freshly harvested from local farms, delivered with care.'}</div>
+                        <div class="product-meta">
+                            <div class="farmer-name">👨‍🌾 ${escapeHtml(product.farmer_name) || 'Local Farmer Cooperative'}</div>
+                            <div class="stock-info ${stockClass}">📦 ${stockText}</div>
+                            <button class="btn-view-only" data-product-name="${escapeHtml(product.name)}" data-product-id="${product.id}">
+                                🔍 View Details &nbsp;→
+                            </button>
+                            <div class="register-badge" data-product-name="${escapeHtml(product.name)}">
+                                ✨ Register to buy this item
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // Attach event listeners to all "view details" buttons and register badges
+        document.querySelectorAll('.btn-view-only').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const productName = btn.getAttribute('data-product-name') || 'this product';
+                openRegisterModal(productName);
+            });
+        });
+
+        document.querySelectorAll('.register-badge').forEach(badge => {
+            badge.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const productName = badge.getAttribute('data-product-name') || 'items';
+                openRegisterModal(productName);
+            });
+        });
+    }
+
+    // Filter products based on selected category
+    function filterProducts(category) {
+        if (category === 'all') {
+            displayProducts(allProducts);
+        } else {
+            const filtered = allProducts.filter(product => product.category === category);
+            displayProducts(filtered);
+        }
+    }
+
+    // Load products from backend / database
+    async function loadProductsFromDB() {
+        try {
+            // Attempt to fetch products from the API.
+            // If your backend API endpoint is different, update API_BASE.
+            const response = await fetch(`${API_BASE}/api/products`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
+            const products = await response.json();
+            
+            if (Array.isArray(products) && products.length > 0) {
+                allProducts = products;
+                // Apply current filter (default 'all')
+                filterProducts(currentFilter);
+            } else {
+                // fallback mock data in case database empty, but we want to show demo content
+                showMockProducts();
+            }
+        } catch (error) {
+            console.warn('Could not connect to backend, showing local sample products:', error);
+            // Fallback: display sample products so the page still looks functional
+            showMockProducts();
+        }
+    }
+
+    // Sample / fallback products (demonstrative when DB is not running or empty)
+    function showMockProducts() {
+        const mockData = [
+            { id: 1, name: "Fresh Tomatoes", price: 80, category: "Vegetables", description: "Juicy, vine-ripened tomatoes from Kiambu.", farmer_name: "Paul Mwangi", quantity: 120, image_url: "https://images.unsplash.com/photo-1598511755345-8c1f3e6846c0?w=500&auto=format" },
+            { id: 2, name: "Green Peppers", price: 120, category: "Vegetables", description: "Crisp and fresh bell peppers.", farmer_name: "Esther Wanjiku", quantity: 85, image_url: "https://images.unsplash.com/photo-1563565375008-2ae9ff9c6c64?w=500&auto=format" },
+            { id: 3, name: "Organic Avocados", price: 150, category: "Fruits", description: "Hass avocados, creamy and rich.", farmer_name: "James Kariuki", quantity: 200, image_url: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=500&auto=format" },
+            { id: 4, name: "Farm Fresh Milk", price: 70, category: "Dairy", description: "Unpasteurized fresh milk from free-range cows.", farmer_name: "Nakuru Dairy Coop", quantity: 45, image_url: "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500&auto=format" },
+            { id: 5, name: "Maize Grain", price: 95, category: "Grains", description: "Premium white maize, dried and sorted.", farmer_name: "Uasin Gishu Farm", quantity: 500, image_url: "https://images.unsplash.com/photo-1571751716232-8a0f3a1bf4f0?w=500&auto=format" },
+            { id: 6, name: "Indigenous Chicken", price: 650, category: "Livestock", description: "Live Kienyeji chicken, free-range.", farmer_name: "Martha Achieng", quantity: 30, image_url: "https://images.unsplash.com/photo-1621955964223-9d9c279bb8fe?w=500&auto=format" }
+        ];
+        allProducts = mockData;
+        filterProducts(currentFilter);
+        showToast("🛒 Browsing sample products — real catalog coming soon when backend connects.", false);
+    }
+
+    // Category filter event binding
+    function bindCategoryFilters() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.getAttribute('data-category');
+                filterProducts(currentFilter);
+            });
+        });
+    }
+
+    // Modal close handlers
+    function initModal() {
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeModal);
+        }
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        // Also close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
+
+    // --- Initialization ---
+    async function init() {
+        bindCategoryFilters();
+        initModal();
+        await loadProductsFromDB();
+    }
+
+    init();
+</script>
+</body>
+</html>

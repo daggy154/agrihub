@@ -45,6 +45,35 @@
             <a href="index.html" style="color: #999; font-weight: 500;">← Back to Home</a>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js">
+        // In your login.html script, update the login function
+        async function handleLogin(email, password) {
+            try {
+                const response = await fetch('http://localhost:3000/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.user) {
+                    // Store user data with BOTH keys for compatibility
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    localStorage.setItem('agrihub_current_user', JSON.stringify(data.user));
+                    
+                    console.log('User stored:', data.user);
+                    
+                    // Redirect based on role
+                    window.location.href = data.redirect;
+                } else {
+                    alert(data.message || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('An error occurred during login');
+            }
+        }
+    </script>
 </body>
 </html>
