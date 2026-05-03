@@ -7,13 +7,347 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dashboard.css" >
+    <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="index.css">
-    
-    
-</head>
-<body class="dashboard-bg"><!-- Reusing the centered body style -->
+    <style>
+        /* Form Styles */
+        .add-product-form {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 0;
+        }
 
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .file-upload {
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        .file-upload:hover {
+            border-color: var(--accent-green);
+            background: #f5f5f5;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .btn-submit {
+            background: var(--accent-green);
+            color: white;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-green);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1001;
+            animation: slideIn 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification.success {
+            background: #4CAF50;
+        }
+
+        .notification.error {
+            background: #ff4444;
+        }
+
+        /* Enhanced Footer Styles */
+        .agrihub-footer {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #1a3a2b 0%, #0e2a1e 100%);
+            border-radius: 24px 24px 0 0;
+            color: #e0e6dd;
+            font-family: 'DM Sans', sans-serif;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+        }
+
+        .footer-main {
+            padding: 40px 35px 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 35px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .footer-brand .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .footer-brand p {
+            line-height: 1.5;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            color: #cbdccf;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-green);
+            transform: translateY(-3px);
+        }
+
+        .footer-col h4 {
+            color: #f5f9f0;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 35px;
+            height: 2px;
+            background: var(--accent-green);
+            border-radius: 2px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #cbdccf;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: #b9f5b0;
+            transform: translateX(3px);
+        }
+
+        .contact-info p {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #cbdccf;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 40px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #bdd4c4;
+        }
+
+        .newsletter-form button {
+            background: var(--accent-green);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .newsletter-form button:hover {
+            background: #2c7a47;
+            transform: scale(0.98);
+        }
+
+        .footer-bottom {
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: #b1c9bb;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .footer-bottom-links a {
+            color: #b1c9bb;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-bottom-links a:hover {
+            color: white;
+        }
+
+        /* Responsive adjustment */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .footer-main {
+                padding: 30px 20px;
+                gap: 30px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px 20px;
+            }
+            .footer-bottom-links {
+                justify-content: center;
+            }
+            .add-product-form {
+                padding: 20px;
+            }
+        }
+        
+        /* Layout fix - ensure footer stays inside dashboard-content */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .dashboard-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Main form wrapper that pushes footer down */
+        .form-wrapper {
+            flex: 1;
+        }
+    </style>
+</head>
+<body class="dashboard-bg">
     <div class="dashboard-container">
         <!-- SIDEBAR -->
         <div class="sidebar">
@@ -26,7 +360,7 @@
             <a href="#" class="menu-item active">Add Product</a>
             <a href="farmer_products.html" class="menu-item">My Products</a>
             <a href="farmer_orders.html" class="menu-item">Orders Received</a>
-            <a href="farmer_advisory.html" class="menu-item">Expert advice</a>
+            <a href="farmer_advisory.html" class="menu-item">Expert Advice</a>
             <a href="farmer_contacts.html" class="menu-item">Support & Contacts</a>
             <a href="farmer_settings.html" class="menu-item">Settings</a>
             <a href="index.html" class="menu-item" style="margin-top: auto; border:none; color: #ffadad;">Logout</a>
@@ -42,72 +376,268 @@
                 </div>
             </div>
 
-            <!-- Requirement: "Farmers to post products and their validated price" -->
-            <form class="add-product-form" id="productForm" enctype="multipart/form-data">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Product Name</label>
-                        <input type="text" id="productName" placeholder="e.g. Fresh Organic Tomatoes">
+            <!-- Wrapper for main form content to push footer down -->
+            <div class="form-wrapper">
+                <form class="add-product-form" id="productForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Product Name *</label>
+                            <input type="text" id="productName" placeholder="e.g. Fresh Organic Tomatoes" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Category *</label>
+                            <select id="category" required>
+                                <option value="">Select Category</option>
+                                <option>Vegetables</option>
+                                <option>Fruits</option>
+                                <option>Grains</option>
+                                <option>Dairy</option>
+                                <option>Poultry</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Price (Ksh) *</label>
+                            <input type="number" id="price" placeholder="0.00" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity Available (Kg/Units) *</label>
+                            <input type="number" id="quantity" placeholder="100" required>
+                        </div>
+                    </div>
+
                     <div class="form-group">
-                        <label>Category</label>
-                        <select id="category">
-                            <option>Vegetables</option>
-                            <option>Fruits</option>
-                            <option>Grains</option>
-                            <option>Dairy</option>
-                        </select>
+                        <label>Description</label>
+                        <textarea id="description" rows="4" placeholder="Describe your product quality, harvest date, organic certification, etc..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Product Image</label>
+                        <div class="file-upload" id="fileUploadArea">
+                            <span style="font-size:2rem;">📸</span><br>
+                            <span id="uploadText">Click to upload photo</span>
+                            <input type="file" id="productImage" accept="image/*">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">🌾 Publish Product</button>
+                </form>
+            </div>
+
+            <!-- ✨ FOOTER PLACED CORRECTLY INSIDE DASHBOARD-CONTENT (NOT OUTSIDE DASHBOARD-CONTAINER) ✨ -->
+            <footer class="agrihub-footer">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <svg viewBox="0 0 24 24" style="fill:#a8e6a0; width:28px; height:28px;">
+                                <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                            </svg>
+                            AgriHub
+                        </div>
+                        <p>Empowering farmers with smart tools, market access, and expert insights — cultivating a sustainable future.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook">📘</a>
+                            <a href="#" aria-label="Twitter">🐦</a>
+                            <a href="#" aria-label="Instagram">📸</a>
+                            <a href="#" aria-label="LinkedIn">🔗</a>
+                        </div>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="farmer_dashboard.html">🌾 Add Product</a></li>
+                            <li><a href="farmer_products.html">📦 My Products</a></li>
+                            <li><a href="farmer_orders.html">📋 Orders Received</a></li>
+                            <li><a href="farmer_advisory.html">🌱 Expert Advice</a></li>
+                            <li><a href="farmer_contacts.html">📞 Support & Contacts</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Resources</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">📘 Farmer Guidebook</a></li>
+                            <li><a href="#">📊 Market Trends</a></li>
+                            <li><a href="#">🌦️ Weather Forecast</a></li>
+                            <li><a href="#">🏆 Success Stories</a></li>
+                            <li><a href="#">❓ FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Contact & Support</h4>
+                        <div class="contact-info">
+                            <p>📧 <span>admin@agrihub.com</span></p>
+                            <p>📞 <span>+254 113 820053</span></p>
+                            <p>📍 <span>Nakuru, Kenya</span></p>
+                        </div>
+                        <div class="newsletter-form">
+                            <input type="email" placeholder="Your email for updates" id="footerNewsletterEmail">
+                            <button id="footerSubscribeBtn">Subscribe</button>
+                        </div>
                     </div>
                 </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Price (Ksh)</label>
-                        <input type="number" id="price" placeholder="0.00">
-                    </div>
-                    <div class="form-group">
-                        <label>Quantity Available (Kg) / Number</label>
-                        <input type="number" id="quantity" placeholder="100">
+                <div class="footer-bottom">
+                    <div>© 2025 AgriHub — Cultivating connections, bridging growth. All rights reserved.</div>
+                    <div class="footer-bottom-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Settings</a>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea id="description" rows="4" style="width:100%; padding:15px; border:1px solid #e0e0e0; border-radius:10px; font-family:'DM Sans';" placeholder="Describe your product..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Product Image</label>
-                    <div class="file-upload">
-                        <span style="font-size:2rem;">📸</span><br>
-                        Click to upload photo
-                        <input type="file" id="productImage" name="image" accept="image/*">
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-submit" style="width: auto; padding-left: 40px; padding-right: 40px;">Publish Product</button>
-            </form>
+            </footer>
         </div>
     </div>
+
     <script>
+        const API = "http://localhost:3000";
+        
+        // Helper function to show notifications
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
         // Load farmer info from localStorage
         document.addEventListener('DOMContentLoaded', function() {
             const userData = JSON.parse(localStorage.getItem('currentUser'));
-            if (userData && userData.fullname) {
+            
+            // Redirect if not logged in or not a seller
+            if (!userData || userData.role !== 'seller') {
+                alert('Please login as a farmer first');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Display farmer name
+            if (userData.fullname) {
                 document.getElementById('farmerName').textContent = userData.fullname;
             }
-            const productForm = document.getElementById('productForm');
-            if(productForm){
-                productForm.reset();
-            }
+            
+            // File upload visual feedback
             const fileInput = document.getElementById('productImage');
-            if(fileInput){
-                fileInput.value = "";
+            const uploadArea = document.getElementById('fileUploadArea');
+            const uploadText = document.getElementById('uploadText');
+            
+            if (uploadArea) {
+                uploadArea.addEventListener('click', function() {
+                    fileInput.click();
+                });
+                
+                fileInput.addEventListener('change', function(e) {
+                    if (fileInput.files && fileInput.files[0]) {
+                        uploadText.textContent = `✅ ${fileInput.files[0].name}`;
+                        uploadText.style.color = '#4CAF50';
+                    } else {
+                        uploadText.textContent = 'Click to upload photo';
+                        uploadText.style.color = '';
+                    }
+                });
             }
-            // Add this inside your script tag to handle the logout button specifically
-            document.querySelector('a[href="index.html"]').addEventListener('click', function() {
-                localStorage.removeItem('currentUser');
-            });
+            
+            // Handle logout
+            const logoutBtn = document.querySelector('a[href="index.html"]');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    localStorage.removeItem('currentUser');
+                });
+            }
+            
+            // Handle product form submission
+            const productForm = document.getElementById('productForm');
+            if (productForm) {
+                productForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    // Get form values
+                    const productName = document.getElementById('productName').value.trim();
+                    const category = document.getElementById('category').value;
+                    const price = document.getElementById('price').value;
+                    const quantity = document.getElementById('quantity').value;
+                    const description = document.getElementById('description').value.trim();
+                    const imageFile = document.getElementById('productImage').files[0];
+                    
+                    // Validation
+                    if (!productName) {
+                        showNotification('Please enter product name', 'error');
+                        return;
+                    }
+                    if (!category) {
+                        showNotification('Please select a category', 'error');
+                        return;
+                    }
+                    if (!price || price <= 0) {
+                        showNotification('Please enter a valid price', 'error');
+                        return;
+                    }
+                    if (!quantity || quantity <= 0) {
+                        showNotification('Please enter a valid quantity', 'error');
+                        return;
+                    }
+                    
+                    // Get current user
+                    const userData = JSON.parse(localStorage.getItem('currentUser'));
+                    
+                    // Prepare form data for API
+                    const formData = new FormData();
+                    formData.append('name', productName);
+                    formData.append('category', category);
+                    formData.append('price', price);
+                    formData.append('quantity', quantity);
+                    formData.append('description', description);
+                    formData.append('farmer_id', userData.id);
+                    formData.append('farmer_name', userData.fullname);
+                    
+                    if (imageFile) {
+                        formData.append('image', imageFile);
+                    }
+                    
+                    try {
+                        const response = await fetch(`${API}/api/products`, {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (response.ok) {
+                            showNotification('✅ Product published successfully!');
+                            productForm.reset();
+                            // Reset file upload text
+                            if (uploadText) {
+                                uploadText.textContent = 'Click to upload photo';
+                                uploadText.style.color = '';
+                            }
+                            // Clear file input
+                            document.getElementById('productImage').value = '';
+                        } else {
+                            showNotification(data.message || 'Failed to publish product', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Error publishing product:', error);
+                        showNotification('Network error. Please try again.', 'error');
+                    }
+                });
+            }
+            
+            // Footer newsletter subscription
+            const subscribeBtn = document.getElementById('footerSubscribeBtn');
+            if (subscribeBtn) {
+                subscribeBtn.addEventListener('click', function() {
+                    const emailInput = document.getElementById('footerNewsletterEmail');
+                    const email = emailInput.value.trim();
+                    if (email && email.includes('@')) {
+                        showNotification(`✨ Thanks for subscribing! Updates will be sent to ${email}.`);
+                        emailInput.value = '';
+                    } else {
+                        showNotification('Please enter a valid email address', 'error');
+                    }
+                });
+            }
         });
     </script>
     <script src="script.js"></script>

@@ -122,6 +122,200 @@
             color: #666;
         }
 
+        .action-btn {
+            background: var(--accent-green);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Enhanced Footer Styles */
+        .agrihub-footer {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #1a3a2b 0%, #0e2a1e 100%);
+            border-radius: 24px 24px 0 0;
+            color: #e0e6dd;
+            font-family: 'DM Sans', sans-serif;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+        }
+
+        .footer-main {
+            padding: 40px 35px 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 35px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .footer-brand .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .footer-brand p {
+            line-height: 1.5;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            color: #cbdccf;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-green);
+            transform: translateY(-3px);
+        }
+
+        .footer-col h4 {
+            color: #f5f9f0;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 35px;
+            height: 2px;
+            background: var(--accent-green);
+            border-radius: 2px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #cbdccf;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: #b9f5b0;
+            transform: translateX(3px);
+        }
+
+        .contact-info p {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #cbdccf;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 40px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #bdd4c4;
+        }
+
+        .newsletter-form button {
+            background: var(--accent-green);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .newsletter-form button:hover {
+            background: #2c7a47;
+            transform: scale(0.98);
+        }
+
+        .footer-bottom {
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: #b1c9bb;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .footer-bottom-links a {
+            color: #b1c9bb;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-bottom-links a:hover {
+            color: white;
+        }
+
         /* --- Responsive Adjustments --- */
         @media (max-width: 768px) {
             .dashboard-container {
@@ -200,6 +394,35 @@
                 padding: 12px;
                 margin-top: 5px;
             }
+            
+            .footer-main {
+                padding: 30px 20px;
+                gap: 30px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px 20px;
+            }
+            .footer-bottom-links {
+                justify-content: center;
+            }
+        }
+        
+        /* Layout fix - ensure footer stays inside dashboard-content */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .dashboard-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .content-wrapper {
+            flex: 1;
         }
     </style>
 </head>
@@ -232,56 +455,119 @@
                 </div>
             </div>
 
-            <div class="orders-container">
-
-                <div class="filter-section">
-                    <label>Filter by Status:</label>
-                    <select id="statusFilter" class="filter-select">
-                        <option value="all">All Orders</option>
-                        <option value="pending">Pending</option>
-                        <option value="shipped">Shipped</option>
-                        <option value="completed">Completed</option>
-                    </select>
-                </div>
-
-                <div class="stats-cards" id="statsCards">
-                    <div class="stat-card">
-                        <h3>Total Orders</h3>
-                        <div class="stat-number" id="totalOrders">0</div>
+            <!-- Wrapper for main content to push footer down -->
+            <div class="content-wrapper">
+                <div class="orders-container">
+                    <div class="filter-section">
+                        <label>Filter by Status:</label>
+                        <select id="statusFilter" class="filter-select">
+                            <option value="all">All Orders</option>
+                            <option value="pending">Pending</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="completed">Completed</option>
+                        </select>
                     </div>
-                    <div class="stat-card">
-                        <h3>Total Earnings</h3>
-                        <div class="stat-number" id="totalRevenue">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Pending Orders</h3>
-                        <div class="stat-number" id="pendingOrders">0</div>
-                    </div>
-                </div>
 
-                <div id="ordersList">
-                    <table class="orders-table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Product</th>
-                                <th>Buyer</th>
-                                <th>Quantity</th>
-                                <th>Unit Price</th>
-                                <th>Your Earnings</th>
-                                <th>Order Date</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ordersTableBody">
-                            <tr>
-                                <td colspan="9" class="empty-orders">Loading orders...</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="stats-cards" id="statsCards">
+                        <div class="stat-card">
+                            <h3>Total Orders</h3>
+                            <div class="stat-number" id="totalOrders">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Total Earnings</h3>
+                            <div class="stat-number" id="totalRevenue">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Pending Orders</h3>
+                            <div class="stat-number" id="pendingOrders">0</div>
+                        </div>
+                    </div>
+
+                    <div id="ordersList">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Product</th>
+                                    <th>Buyer</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Your Earnings</th>
+                                    <th>Order Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                <tr>
+                                    <td colspan="9" class="empty-orders">Loading orders...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+
+            <!-- ✨ FOOTER ADDED - SAME EXACT STYLES AS OTHER PAGES ✨ -->
+            <footer class="agrihub-footer">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <svg viewBox="0 0 24 24" style="fill:#a8e6a0; width:28px; height:28px;">
+                                <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                            </svg>
+                            AgriHub
+                        </div>
+                        <p>Empowering farmers with smart tools, market access, and expert insights — cultivating a sustainable future.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook">📘</a>
+                            <a href="#" aria-label="Twitter">🐦</a>
+                            <a href="#" aria-label="Instagram">📸</a>
+                            <a href="#" aria-label="LinkedIn">🔗</a>
+                        </div>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="farmer_dashboard.html">🌾 Add Product</a></li>
+                            <li><a href="farmer_products.html">📦 My Products</a></li>
+                            <li><a href="farmer_orders.html">📋 Orders Received</a></li>
+                            <li><a href="farmer_advisory.html">🌱 Expert Advice</a></li>
+                            <li><a href="farmer_contacts.html">📞 Support & Contacts</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Resources</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">📘 Farmer Guidebook</a></li>
+                            <li><a href="#">📊 Market Trends</a></li>
+                            <li><a href="#">🌦️ Weather Forecast</a></li>
+                            <li><a href="#">🏆 Success Stories</a></li>
+                            <li><a href="#">❓ FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Contact & Support</h4>
+                        <div class="contact-info">
+                            <p>📧 <span>admin@agrihub.com</span></p>
+                            <p>📞 <span>+254 113 820053</span></p>
+                            <p>📍 <span>Nakuru, Kenya</span></p>
+                        </div>
+                        <div class="newsletter-form">
+                            <input type="email" placeholder="Your email for updates" id="footerNewsletterEmail">
+                            <button id="footerSubscribeBtn">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div>© 2025 AgriHub — Cultivating connections, bridging growth. All rights reserved.</div>
+                    <div class="footer-bottom-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Settings</a>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 
@@ -302,6 +588,21 @@
             loadOrders(userData.id);
             
             document.getElementById('statusFilter').addEventListener('change', filterOrders);
+            
+            // Footer newsletter subscription
+            const subscribeBtn = document.getElementById('footerSubscribeBtn');
+            if (subscribeBtn) {
+                subscribeBtn.addEventListener('click', function() {
+                    const emailInput = document.getElementById('footerNewsletterEmail');
+                    const email = emailInput.value.trim();
+                    if (email && email.includes('@')) {
+                        alert(`✨ Thanks for subscribing! Updates will be sent to ${email}.`);
+                        emailInput.value = '';
+                    } else {
+                        alert('Please enter a valid email address to receive AgriHub updates.');
+                    }
+                });
+            }
         });
 
         async function loadOrders(farmerId) {
@@ -351,20 +652,27 @@
                 const amountPaidByBuyer = parseFloat(order.total_price);
                 // Calculate farmer's actual earnings (remove the 10% platform fee)
                 const farmerEarnings = amountPaidByBuyer / (1 + PLATFORM_FEE_PERCENTAGE);
-                // Calculate platform commission
-                const platformCommission = amountPaidByBuyer - farmerEarnings;
                 // Calculate unit price (farmer's price per unit)
                 const unitPrice = farmerEarnings / parseFloat(order.quantity);
+
+                let actionButton = '';
+                if (order.status === 'pending') {
+                    actionButton = `<button onclick="updateOrderStatus(${order.id}, 'shipped')" class="action-btn">🚚 Ship Order</button>`;
+                } else if (order.status === 'shipped') {
+                    actionButton = `<button onclick="updateOrderStatus(${order.id}, 'completed')" class="action-btn">✅ Mark Complete</button>`;
+                } else {
+                    actionButton = `<span style="color: #999; font-size:0.8rem;">✓ Completed</span>`;
+                }
 
                 return `
                     <tr>
                         <td data-label="Order ID">#${order.id}</td>
-                        <td data-label="Product" style="font-size: 0.8rem;"><strong>${order.product_name}</strong></td>
-                        <td data-label="Buyer" style="font-size: 0.8rem;">${order.buyer_name}</td>
-                        <td data-label="Quantity" style="font-size: 0.8rem;">${order.quantity} kg</td>
-                        <td data-label="Unit Price" style="font-size: 0.8rem;">${unitPrice.toFixed(2)}</td>
+                        <td data-label="Product" style="font-size: 0.8rem;"><strong>${escapeHtml(order.product_name)}</strong></td>
+                        <td data-label="Buyer" style="font-size: 0.8rem;">${escapeHtml(order.buyer_name)}</td>
+                        <td data-label="Quantity" style="font-size: 0.8rem;">${order.quantity} ${order.unit || 'kg'}</td>
+                        <td data-label="Unit Price" style="font-size: 0.8rem;">KSH ${unitPrice.toFixed(2)}</td>
                         <td data-label="Your Earnings" style="font-size: 0.8rem;">
-                            <strong style="color: var(--primary-green);">${farmerEarnings.toFixed(2)}</strong>
+                            <strong style="color: var(--primary-green);">KSH ${farmerEarnings.toFixed(2)}</strong>
                         </td>
                         <td data-label="Date" style="font-size: 0.8rem;">${new Date(order.order_date).toLocaleDateString()}</td>
                         <td data-label="Status">
@@ -373,16 +681,18 @@
                             </span>
                         </td>
                         <td data-label="Action">
-                            ${order.status === 'pending' ? 
-                                `<button onclick="updateOrderStatus(${order.id}, 'shipped')" class="action-btn" style="background: var(--accent-green); border:none; border-radius:5px; color: white; padding: 8px 15px; cursor: pointer; font-size:0.8rem;">Ship Order</button>` : 
-                                order.status === 'shipped' ?
-                                `<button onclick="updateOrderStatus(${order.id}, 'completed')" class="action-btn" style="background: var(--primary-green); border:none; border-radius:5px; color: white; padding: 8px 15px; cursor: pointer; font-size:0.8rem;">Mark Complete</button>` :
-                                `<span style="color: #999;">✓ Completed</span>`
-                            }
+                            ${actionButton}
                         </td>
                     </tr>
                 `;
             }).join('');
+        }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         function filterOrders() {
@@ -410,7 +720,7 @@
                 
                 const data = await response.json();
                 if (response.ok) {
-                    alert(`Order status updated to ${newStatus}`);
+                    alert(`✅ Order status updated to ${newStatus.toUpperCase()}`);
                     const userData = JSON.parse(localStorage.getItem('currentUser'));
                     loadOrders(userData.id);
                 } else {

@@ -197,6 +197,203 @@
         input:checked + .toggle-slider:before {
             transform: translateX(26px);
         }
+
+        /* Enhanced Footer Styles */
+        .agrihub-footer {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #1a3a2b 0%, #0e2a1e 100%);
+            border-radius: 24px 24px 0 0;
+            color: #e0e6dd;
+            font-family: 'DM Sans', sans-serif;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+        }
+
+        .footer-main {
+            padding: 40px 35px 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 35px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .footer-brand .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .footer-brand p {
+            line-height: 1.5;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            color: #cbdccf;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-green);
+            transform: translateY(-3px);
+        }
+
+        .footer-col h4 {
+            color: #f5f9f0;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 35px;
+            height: 2px;
+            background: var(--accent-green);
+            border-radius: 2px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #cbdccf;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: #b9f5b0;
+            transform: translateX(3px);
+        }
+
+        .contact-info p {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #cbdccf;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 40px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #bdd4c4;
+        }
+
+        .newsletter-form button {
+            background: var(--accent-green);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .newsletter-form button:hover {
+            background: #2c7a47;
+            transform: scale(0.98);
+        }
+
+        .footer-bottom {
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: #b1c9bb;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .footer-bottom-links a {
+            color: #b1c9bb;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-bottom-links a:hover {
+            color: white;
+        }
+
+        /* Responsive adjustment for footer */
+        @media (max-width: 768px) {
+            .footer-main {
+                padding: 30px 20px;
+                gap: 30px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px 20px;
+            }
+            .footer-bottom-links {
+                justify-content: center;
+            }
+            .settings-container {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body class="dashboard-bg">
@@ -332,6 +529,67 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ✨ NEW FOOTER SECTION ADDED ✨ -->
+            <footer class="agrihub-footer">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <svg viewBox="0 0 24 24" style="fill:#a8e6a0; width:28px; height:28px;">
+                                <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,7,9,17,8Z" />
+                            </svg>
+                            AgriHub
+                        </div>
+                        <p>Empowering farmers with smart tools, market access, and expert insights — cultivating a sustainable future.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook">📘</a>
+                            <a href="#" aria-label="Twitter">🐦</a>
+                            <a href="#" aria-label="Instagram">📸</a>
+                            <a href="#" aria-label="LinkedIn">🔗</a>
+                        </div>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="farmer_dashboard.html">🌾 Add Product</a></li>
+                            <li><a href="farmer_products.html">📦 My Products</a></li>
+                            <li><a href="farmer_orders.html">📋 Orders Received</a></li>
+                            <li><a href="farmer_advisory.html">🌱 Expert Advice</a></li>
+                            <li><a href="farmer_contacts.html">📞 Support & Contacts</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Resources</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">📘 Farmer Guidebook</a></li>
+                            <li><a href="#">📊 Market Trends</a></li>
+                            <li><a href="#">🌦️ Weather Forecast</a></li>
+                            <li><a href="#">🏆 Success Stories</a></li>
+                            <li><a href="#">❓ FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Contact & Support</h4>
+                        <div class="contact-info">
+                            <p>📧 <span>admin@agrihub.com</span></p>
+                            <p>📞 <span>+254 113 820053</span></p>
+                            <p>📍 <span>Nakuru, Kenya</span></p>
+                        </div>
+                        <div class="newsletter-form">
+                            <input type="email" placeholder="Your email for updates" id="footerNewsletterEmail">
+                            <button id="footerSubscribeBtn">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div>© 2025 AgriHub — Cultivating connections, bridging growth. All rights reserved.</div>
+                    <div class="footer-bottom-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Settings</a>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 
@@ -370,6 +628,21 @@
                 e.preventDefault();
                 await changePassword(userData.id);
             });
+            
+            // Footer newsletter subscription simulation (no backend dependency)
+            const subscribeBtn = document.getElementById('footerSubscribeBtn');
+            if (subscribeBtn) {
+                subscribeBtn.addEventListener('click', function() {
+                    const emailInput = document.getElementById('footerNewsletterEmail');
+                    const email = emailInput.value.trim();
+                    if (email && email.includes('@')) {
+                        alert(`✨ Thanks for subscribing! Updates will be sent to ${email}.`);
+                        emailInput.value = '';
+                    } else {
+                        alert('Please enter a valid email address to receive AgriHub updates.');
+                    }
+                });
+            }
         });
         
         async function updateProfile(userId) {
